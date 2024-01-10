@@ -1,0 +1,85 @@
+php artisan make:model Student -m 
+
+$table->string('regnumber')->unique();
+$table->string('firstname');
+$table->string('lastname');
+$table->string('slug');
+$table->text('remark')->nullable();
+$table->unsignedBigInteger('status_id')->default('1');
+$table->unsignedBigInteger('user_id');
+
+
+=>In Modal (Student.php)
+protected $table = 'students';
+protected $primaryKey = 'id';
+protected $fillable = [
+    'regnumber',
+    'firstname',
+    'lastname',
+    'slug',
+    'remark',
+    'status_id',
+    'user_id'
+];
+
+
+
+=In Controller 
+
+php artisan make:controller StudentsController --resource 
+
+        =Create Validation 
+        $this->validate($request,[
+            'regnumber'=> 'required|unique:students,regnumber', 
+            'firstname'=> 'required',
+            'lastname' => 'required',
+            'remark'=> 'max:200'
+        ]);
+
+
+
+=In Route 
+Route::resource('students',StudentsController::class);
+
+
+php artisan make:model Status -m 
+
+$table->string('name');
+$table->string('slug');
+$table->unsignedBigInteger('user_id');
+
+
+=>In Modal (Student.php)
+protected $table = 'statuses';
+protected $primaryKey = 'id';
+protected $fillable = [
+    'name',
+    'slug',
+    'user_id'
+];
+
+
+
+
+
+=In Controller 
+php artisan make:controller StatusesController --resource 
+
+
+
+
+=In Route 
+Route::resource('statuses',StudentsController::class);
+
+
+php artisan migrate:status 
+php artisan migrate
+
+=CMD 
+php artisan route:list 
+php artisan route:list --path=students
+php artisan route:list --path=statuses 
+
+=>Create Request File For Validation 
+php artisan make:request JustnamingRequest 
+php artisan make:request JustnamingRequest 

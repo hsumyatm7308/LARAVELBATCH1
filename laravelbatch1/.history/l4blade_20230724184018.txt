@@ -1,0 +1,16 @@
+=>Blade
+
+filename.blade.php 
+
+php artisan make:controller employeesController 
+
+=>Passing Data  from Route/Controller 
+
+        //thor khi chin tae view
+(i) view(view,array variable); //array phyit ya mal 
+ (or)
+ 
+view(view,['string' =>variable,'string',=>variable])
+
+(ii) with(,)
+(iii)compact()

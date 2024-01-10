@@ -1,0 +1,7 @@
+php artisan make:model Student -m 
+
+$table->string('regnumber')->unique();
+$table->string('firstname');
+$table->string('lastname');
+$table->string('slug');
+$table->text('remark')->nullable();

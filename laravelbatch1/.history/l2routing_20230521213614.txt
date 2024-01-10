@@ -1,0 +1,39 @@
+=>Routing 
+
+routes > web.php (or) routes > api.php
+
+
+=>Avaliable Router Methods 
+Route::get(uri,callback);
+Route::post(uri,callback);
+Route::put(uri,callback);
+Route::patch(uri,callback);
+Route::delete(uri,callback);
+Route::options(uri,callback);
+
+::  = call class methods 
+
+
+
+=>Basic Routing 
+Route::get("/",function(){
+    return "Save Myanmar";
+})
+
+Route::get('/sayar', function () {
+    return 'Hey,Sayar Nay Kaung Lar ??';
+});
+
+
+Rout တွေကို မတူတာပဲ ပေးရမယ် one page one routes 
+
+
+Route::get('about', function () {
+    return 'Hey,Sayar Nay Kaung Lar ??';
+});
+
+
+
+
+
+

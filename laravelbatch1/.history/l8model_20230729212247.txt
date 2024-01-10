@@ -1,0 +1,270 @@
+=>Model 
+=>Dataabase Eloquent ORM (Object-Relational Mapper)
+
+=>Generate Model Class (Model typically live in the app/Models directory and extends)
+Illuminate\Database\Eloquent\Model class 
+
+=>Command Line (Just Model)
+php artisan make:model Post 
+
+=>Command Line (Model + Migration)
+php artisan make:model Article --migration 
+or 
+php artisan make:model Article -m 
+
+---------------------------------
+
+=>Useful Keyword in Model 
+Table Name 
+protected $table = 'articles';
+
+=Custommize 
+const CREATED_AT = 'created_at';
+const UPDATED_AT = 'updated_at';
+
+php artisan migrate:status 
+php artisan migrate 
+
+
+------------------------------
+
+
+=> Retrieving Datas By Model (Single / Multid)
+
+
+
+Route::get('article/read',function(){
+    // use App\Models\Article
+    $articles = Article::all();
+    return $articles;
+    // return "Hello";
+
+
+    foreach($articles as $article){
+        echo "$article->title  <br> $article->description";
+    } 
+});
+
+
+
+=>Retrieve a model by primary key from model 
+
+  Route::get('article/find',function(){
+    // use App\Models\Article
+    // $articles = Article::find(5);
+
+    // =Not Found Exception 
+    $articles = Article::findOrFail(20); //404 NOT FOUND    
+    return $articles;
+ 
+});
+
+
+=>Reteriveing Data machining by whre method 
+
+
+Route::get('article/where',function(){
+    // use App\Models\Article
+    // $articles = Article::find(5);
+
+    
+     $articles = Article::where('user_id',2)->orderBy('id','desc')->get();     
+    return $articles;
+
+
+    // $articles = Article::where('user_id',2)->take(5)->orderBy('id','desc')->get();     
+    // return $articles;
+
+
+    
+    $articles = Article::where('user_id',2)->limit(5)->orderBy('id','desc')->get();     
+    return $articles;
+
+
+
+   
+});
+
+
+
+Route::get('articles/create', function () {
+    //   $article = Article::firstOrCreate([
+//     'title'=>'this is new article 1'
+//   ]);
+
+    //   return "Retrive Data or Insert $article";
+
+
+    // $article = Article::firstOrCreate([
+//     'title'=>'this is new article 15',
+//     'description'=>'Loream Ipsum is simply dummy tet of the sdf;sa',
+//     'user_id'=>3,
+//     'rating'=>2 
+// ]);
+// return "Retrive Data or Insert $article";
+
+
+
+    $article = Article::firstOrCreate(
+        [
+            'title' => 'this is new article 15'
+
+        ],
+        [
+            'description' => 'Loream Ipsum is simply dummy tet of the sdf;sa',
+            'user_id' => 3,
+            'rating' => 2
+        ]
+
+    );
+    return "Retrive Data or Insert $article";
+
+
+});
+
+
+Route::get('article/filter',function(){
+    // $articles = Article::all()->filter(function($article){
+    //     return $article->id > 5;
+    // })   ;
+
+
+    // $articles = Article::get()->filter(function($article){
+    //     return $article->id > 5;
+    // })   ;
+
+
+    // $articles = Article::cursor()->filter(function($article){
+    //     return $article->id > 5;
+    // })   ;
+
+    $articles = Article::all()->filter(function($article){
+        return $article->id > 5;
+    })   ;
+
+
+    foreach($articles as $article){
+        echo "$article->id <br> $article->title <br> $article->description";
+    }
+
+
+});
+
+
+Route::get('articles/reject',function(){
+    $data = [
+        100,200,300,0,'0',1,'1','aung aung','',' ',null,
+        true, false, [], ['red','green','blue'],['price'=>100]
+    ];
+
+    // return $data;
+    // dd(
+    //     $data,
+    //     collect($data)
+    // );
+
+    $collections = collect($data);
+    // return $collections->reject(); //{"3":0,"4":"0","8":"","10":null,"12":false,"13":[]}
+
+    // return $collections->reject(function($value){
+    //       return empty($value); //{"0":100,"1":200,"2":300,"5":1,"6":"1","7":"aung aung","9":" ","11":true,"14":["red","green","blue"],"15":{"price":100}}
+    // });
+
+    // return $collections->filter(function($value){
+    //   return $value; //{"0":100,"1":200,"2":300,"5":1,"6":"1","7":"aung aung","9":" ","11":true,"14":["red","green","blue"],"15":{"price":100}}
+    // return empty($value); //{"3":0,"4":"0","8":"","10":null,"12":false,"13":[]}
+    // return is_numeric($value); //[100,200,300,0,"0",1,"1"]
+    // return is_string($value); //{"4":"0","6":"1","7":"aung aung","8":"","9":" "}
+    // return is_bool($value); //{"11":true,"12":false}
+    // return is_array($value); //{"13":[],"14":["red","green","blue"],"15":{"price":100}}
+    // return is_null($value);  //{"10":null}
+
+
+    // });
+
+
+});
+
+
+// =>WhereColumn('column1','column2') //compare and rewult same value
+// =>WhereColumn('column1','co(>,<,=,etc...)','column2') //compare and rewult same value
+// =>WhereColumn([['column1','column2],['column3','column4']]) //multi compare 
+
+Route::get('articles/wherecolumn ',function(){
+    // $articles = Article::whereColumn('id','user_id')->get();
+    // return $articles;
+
+    // $articles= Article::whereColumn('created_date','updated_date')->get();
+    // return $articles;
+
+
+
+    // $articles= Article::whereColumn('created_date','>','updated_date')->orderByDESC('id')->get();
+    // return $articles;
+
+    $articles= Article::whereColumn([['id','user_id'],['created_date','updated_date']])->orderByDESC('id')->get();
+    return $articles;
+});
+
+
+Route::get('articles/insert',function(){
+    // Method 1 
+    // invoke Modle 
+
+    // $article = new Article;
+    // $article->title = "this is new article 18";
+    // $article->description = "Lorem Ipsum is lijlsjdf;s";
+    // $article->user_id = 1;
+    // $article->rating = 3 ;
+    // $article->save();
+
+    // return "Data Inserted $article";
+
+    // Method 2 
+
+    // direct call modle // create()  => not pull and just add 
+    // $article = Article::create([
+    //     'title'=>'this is new article 22',
+    //     'description'=>'loream Ipakfj;sdkf',
+    //     'user_id'=>2,
+    //     'ratiing'=>5
+
+    // ]);
+
+    // return "Data Inserted $article";
+
+    // echo now();
+    // var_dump(now()) // objcect  => Classic php ka yuu htar tar
+
+    // to string 
+    // now()->toDateString(); => laravel ka thonde htar tar 
+
+
+
+
+    $getdate = now("Asia/Yangon")->toDateTimeString();
+    $today = date("Y-m-d H:i:s");
+
+
+    // use Carbon\Carbon
+    $curdatetime = Carbon::now();
+    var_dump($curdatetime); //object  from laravel 
+
+
+
+    $article = DB::table('article')->insert([
+        'title'=>'this is new article 22',
+        'description'=>'loream Ipakfj;sdkf',
+        'user_id'=>2,
+        'ratiing'=>5,
+        'created_date'=>$getdate,
+        // 'updated_date'=>$todauy
+        'updated_date'=>$curdatetime
+
+
+    ]);
+
+    return "Data Inserted $article";
+
+
+});

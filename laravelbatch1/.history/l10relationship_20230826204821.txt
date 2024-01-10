@@ -1,0 +1,20 @@
+=>eloqunet relationship
+
+=> one to one 
+
+protected $table = "users";
+protected $primaryKey = "id";
+
+  public function userfromuserphp(){
+        return $this->BelongsTo("APP\Models\Users");
+    }
+
+
+
+      public function customearticle(){
+        // Method 1 
+        // return $this->hasOne('APP\Models\Article');
+
+        // Method 2 
+        return $this->hasOne(Article::class);
+    }

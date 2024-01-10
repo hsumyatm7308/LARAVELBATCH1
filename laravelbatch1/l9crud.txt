@@ -1,0 +1,17 @@
+=>Soft Delete 
+
+=In Models 
+use SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+php artisan make:migration add_softdelete_to_articles_table --table = "Softdelete";
+=>up 
+$table->SoftDeletes();
+
+=>down 
+$table->dropSoftDeletes();
+
+php artisan migrate:status 
+php artisah migrate 
+
+

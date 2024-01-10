@@ -1,0 +1,14 @@
+
+
+=> Form CRUD 
+
+
+=Migration 
+
+php artisan make:model Country -m 
+
+   $table->string('name');
+    $table->string('capital');
+    $table->string('currency');
+    $table->text('content');
+    $table->integer('userid')->unsigned();

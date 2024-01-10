@@ -1,0 +1,138 @@
+=>Command 
+
+php artisan 
+
+=>server run 
+php artisan server 
+
+=>Check route list 
+php artisan route:list //a to z ASC 
+php aritsan route:list -r //z to a DESC 
+
+
+=>Check route list by path 
+php artisan route:list --path=staff
+php artisan route:list --path=staff -r 
+php artisan route:list --path=student 
+
+=>Check route list by method 
+php artisan route:list --method=get 
+php artisan route:list --method=get -r 
+php artisan route:list --method=post 
+
+
+
+
+
+
+
+
+
+=>Migration 
+=>Table to update db server 
+   php artisan migrate
+
+=>Create New Table
+php artisan make:migration create_students_table 
+
+
+=>List all file from database > migrations files 
+php artisan migrate:status 
+
+
+
+=>Undo Migragte 
+php artisan migrate:rollback 
+php artisan migrate:rollback --step=2 
+php artisan migrate:rollback --pretend 
+php artisan migrate:reset 
+
+
+=>Delte all datas (auto rollback and automigrate/selected  table count to local by DESC )
+php artisan migrate:refresh --step=2
+
+
+=>Add New Columns 
+php artisan make:migration add_city_to_workers_table --table=workers
+
+
+=>Add New Columns 
+php artisan make:migration add_city_to_workers_table --table=workers
+
+
+$stable->string('city); to add_city_to_workers_table 
+php artisan migrate 
+
+
+=>Sort Column 
+php artisan migrate:rollback --pretend 
+
+
+
+=>Rename columns renameColumn(from,to)
+php artisan make:migration rename_students_column --table=students 
+=>up 
+$table->renameColumn('phonenumber','phone');
+$table->renameColumn('city','address');
+
+
+
+=>CRUD 
+DB::select 
+DB::insert 
+DB::update 
+DB:delete 
+DB:table()->get();
+
+
+
+
+ // Mass Assignment 
+    // Method 1 
+
+    // protected $fillable = [
+    //     'title',
+    //     'description',
+    //     'user_id',
+    //     'rating'
+    // ];
+
+    //Method 2 
+    protected $guarded = [];
+
+
+
+-------------------------------------------
+
+    =>Change Laravel Timezone 
+
+    app > 'timezone' =>'Asia/Yangon',
+
+    Note:: php artisan config:clear 
+
+
+
+    29TZ 
+
+---------------------------------------------
+
+        //    1. Public Folder (public/customfolder/)
+        // $request->image->move('customfolder',$imagename);
+        // $request->image->move(public_path('path'),$imagename);
+
+        //   2. Storage Folder  / Local Driver (storage / app/customfolder)   
+        // $request->image->store('path/')
+
+        // php artisan stroage:link 
+
+        // use Illuminate\Support\Facades\Storage 
+        // $storage:;disk('local').put($file,'content','optional')
+
+
+        // $request->image->storeAs($customfolder,$imagename,optional drive)
+
+
+-------------------------
+
+=>After Login or Register (Redirect )
+

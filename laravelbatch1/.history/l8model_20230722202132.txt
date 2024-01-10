@@ -1,0 +1,15 @@
+=>Model 
+=>Dataabase Eloquent ORM (Object-Relational Mapper)
+
+=>Generate Model Class (Model typically live in the app/Models directory and extends)
+Illuminate\Database\Eloquent\Model class 
+
+=>Command Line (Just Model)
+php artisan make:model Post 
+
+=>Command Line (Model + Migration)
+php artisan make:model Article --migration 
+or 
+php artisan make:model Article -m 
+
+---------------------------------

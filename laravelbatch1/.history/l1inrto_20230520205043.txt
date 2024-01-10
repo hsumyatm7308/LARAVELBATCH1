@@ -1,0 +1,13 @@
+=>MVC Framewordk (Model,View,Controller)
+
+Model 
+it's work with database (Select,Insert,Update,Delete)
+
+
+
+View 
+.html/css/boostrap/etc....
+
+
+Controller 
+the controller recieves input from the user , process the requst (GET,POST ,PUT,DELETE)

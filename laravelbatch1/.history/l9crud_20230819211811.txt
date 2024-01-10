@@ -1,0 +1,5 @@
+=>Soft Delete 
+
+=In Models 
+
+use Illuminate\Database\Eloquent\SoftDeletes;

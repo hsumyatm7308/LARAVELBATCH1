@@ -1,0 +1,29 @@
+=>Custom Config 
+APP_Name = "Your Project Name" 
+
+=>Local 
+APP_DEBUT=true  
+
+DB_CONNECTION=mysql
+DB_HOST=dataland.com  (locahost )
+DB_PORT=3306   (database port    (other port so yin  thone tae port ko chang pay ya mal))
+DB_DATABASE=laraver (database name eg- hmmdb)
+DB_USERNAME=root
+DB_PASSWORD=
+
+
+
+
+=>Server 
+APP_DEBUT=false 
+
+
+
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+

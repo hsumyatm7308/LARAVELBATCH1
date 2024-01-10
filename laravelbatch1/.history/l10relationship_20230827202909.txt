@@ -1,0 +1,149 @@
+=>eloqunet relationship
+
+=> one to one 
+
+protected $table = "users";
+protected $primaryKey = "id";
+
+
+=>In Model (Article.php )
+
+  public function userfromuserphp(){
+        return $this->BelongsTo("APP\Models\Users");
+    }
+
+
+    //for one 
+    public function userfromuserphp(){
+        // return $this->belongsTo("APP\Models\Users");
+        return $this->belongsTo(User::class);
+
+    }
+
+
+
+      //for many 
+      public function userfromuserphp(){
+        // return $this->belongsTo("APP\Models\Users");
+        return $this->belongsTo(User::class);
+
+    }
+
+
+=>In MOdel (users)
+      public function customearticle(){
+        // Method 1 
+        // return $this->hasOne('APP\Models\Article');
+
+        // Method 2 
+        return $this->hasOne(Article::class);
+    }
+
+     public function customearticles(){
+        return $this->hasMany(Article::class);
+    }
+
+
+
+
+
+
+=>In Web 
+use App\Models\User;
+    
+
+Route::get('users/{id}/article',function($id){
+   $articles = User::findOrFail($id)->customearticle->title;
+   $articles = User::findOrFail($id)->customearticle->description;
+   $articles = User::findOrFail($id)->customearticle->rating;
+
+   return $articles;
+});
+
+
+
+Route::get('articles/{id}/user',function($id){
+    $articles = Article::findOrFail($id)->userfromuserphp->name;
+   return $articles;
+
+});
+
+
+---------------------------------------------
+
+//=ONe to many 
+
+--------------------------------
+
+//many to many 
+
+
+Route::get('user/{id}/role',function($id){
+    // $user = User::findOrFail($id);
+    // return $user->rolemanytomany;
+
+
+    $user = User::findOrFail($id);
+    
+    foreach($user->rolemanytomany as $role){
+
+        echo $role->name."<br>";
+    
+       }
+});
+
+
+
+------------------------
+
+=Migration 
+
+php artisan make::migration create_roles_table
+
+php artisan make:model Role -m 
+$table->string('name');
+
+
+
+=> Obey by Laravel Nameing Conversion  
+              //laravel know role table + user table          //can't chage 
+php artisan make:migration create_roles_users_table --create="role_user";
+$table->unsignedBigInteger('user_id);
+$table->unsignedBigInteger('role_id);
+
+php artisan migrate:status 
+php artisan migrate 
+
+
+=>In Model (User.php)
+  public function rolemanytomany(){
+        return $this->belongsToMany(Role::class);
+    }
+
+
+=Migration  (Laravel format name)
+
+php artisan migrate:rollback --pretend 
+php artisan migrate:rollback
+
+
+                                 //migration just naming. so can chage 
+php artisan make:migration create_users_roles_table --create="role_user";
+$table->unsignedBigInteger('user_id);
+$table->unsignedBigInteger('role_id);
+
+
+
+
+=Migration  (Custom table name )
+
+php artisan migrate:rollback --pretend 
+php artisan migrate:rollback
+
+php artisan migrate:status 
+
+
+                                 //migration just naming. so can chage 
+php artisan make:migration create_users_roles_table --create="userroles";
+$table->unsignedBigInteger('user_id);
+$table->unsignedBigInteger('role_id);

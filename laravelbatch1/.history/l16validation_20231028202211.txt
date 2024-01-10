@@ -1,0 +1,9 @@
+php artisan make:model Student -m 
+
+$table->string('regnumber')->unique();
+$table->string('firstname');
+$table->string('lastname');
+$table->string('slug');
+$table->text('remark')->nullable();
+$table->unsignedBigInteger('status_id')->default('1');
+$table->unsignedBigInteger('user_id');

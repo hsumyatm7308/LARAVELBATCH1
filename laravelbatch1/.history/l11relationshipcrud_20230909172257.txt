@@ -1,0 +1,5 @@
+=>Eloquent One to One Relationship 
+
+=>Migration 
+
+php artisan make:model Phone 

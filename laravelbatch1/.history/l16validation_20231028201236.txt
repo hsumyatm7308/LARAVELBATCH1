@@ -1,0 +1,4 @@
+php artisan make:model Student -m 
+
+$table->string('regnumber')->unique();
+$table->string('firstname');

@@ -1,0 +1,51 @@
+=> Image Upload 
+
+
+
+
+
+=> single upload
+
+
+=Migration 
+
+php artisan make:model Country -m 
+
+   $table->string('name');
+    $table->string('price');
+    $table->string('image');
+    $table->text('content');
+    $table->integer('userid')->unsigned();
+
+
+
+
+In Model (country ) 
+
+  protected $table = 'countries';
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'name',
+        'capital',
+        'currency',
+        'user_id'
+    ];
+
+
+In Midel (User)
+   public function countries(){
+        return $this->hasMany(Country::class);
+    }
+
+
+php artisan make:controller CountriesController --resource 
+(or)
+php artisan make:controller CountriesController --r  
+
+
+php artisan route:list 
+
+=In Web 
+
+Route::resource('countries',CountriesController::class);

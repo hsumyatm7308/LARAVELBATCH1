@@ -1,0 +1,24 @@
+php artisan make:model Student -m 
+
+$table->string('regnumber')->unique();
+$table->string('firstname');
+$table->string('lastname');
+$table->string('slug');
+$table->text('remark')->nullable();
+$table->unsignedBigInteger('status_id')->default('1');
+$table->unsignedBigInteger('user_id');
+
+
+php artisan migrate:status 
+php artisan migrate
+
+php artisan make:model Status -m 
+
+$table->string('name');
+$table->string('slug');
+$table->string('lastname');
+$table->string('slug');
+$table->text('remark')->nullable();
+$table->unsignedBigInteger('status_id')->default('1');
+$table->unsignedBigInteger('user_id');
+

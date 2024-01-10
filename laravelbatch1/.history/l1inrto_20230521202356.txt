@@ -1,0 +1,74 @@
+=>MVC Framewordk (Model,View,Controller)
+
+Model 
+it's work with database (Select,Insert,Update,Delete)
+
+
+
+View 
+A view is that part of the application that represents the presentation of data 
+.html/css/boostrap/etc....
+
+
+Controller 
+the controller recieves input from the user , process the requst (GET,POST ,PUT,DELETE)
+
+--------------------------
+Version Needed 
+
+php 8.1 
+composer 2.4^
+
+php --version 
+
+composer
+
+----------------------
+
+Installation
+
+Method 1 
+composer create-project laravel/laravel projectname 
+
+Method 2 
+composer global require laravel/installer
+ 
+laravel new projectname 
+
+--------------------------------------
+
+=>Folder and File Structure 
+
+app > Http > Controller 
+app > Http > Models 
+app > database > migrations (table tway ti sout tar)
+app > public (for public custom css / custom js)
+resources > views (: html code twaw view htal mar shi mar )
+routes > web.php (or) routes > api.php
+.env 
+--------------------------------
+
+=>Run Project 
+
+php artisan serve
+
+=>Stop Project 
+php artisan down 
+
+=>Resume Project 
+php artisan up 
+
+
+
+php *^ 
+com 2.5.5 
+x on 
+download 
+
+
+
+terminal -> cd lesson/ lesson1 
+
+-------------------------------------------------
+
+20IN 

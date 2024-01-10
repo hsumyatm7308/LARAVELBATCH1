@@ -1,0 +1,8 @@
+data ko public share chin yin  
+
+=>Public Data Passing
+
+app > providers > AppServiceProvider.php 
+
+
+share() two parameter

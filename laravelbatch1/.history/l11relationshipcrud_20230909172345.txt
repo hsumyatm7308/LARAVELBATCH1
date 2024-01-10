@@ -1,0 +1,7 @@
+=>Eloquent One to One Relationship 
+
+=>Migration 
+
+php artisan make:model Phone -m 
+$table->string('number');
+$table->integer('user_id')->unsignedBigInteger();

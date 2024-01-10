@@ -1,0 +1,260 @@
+=>Migration 
+
+.env 
+
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=exerciseone
+DB_USERNAME=root
+DB_PASSWORD=
+
+
+mysql -u  root -p 
+database@password 
+
+status 
+
+CREATE DATABASE exerciseone;
+
+SHOW DATABASE;
+
+database > migration 
+=>new table to update db server 
+   php artisan migrate
+
+
+=>Create New Table 
+php artisan make:migration create_students_table 
+php artisan make:migration create_workers_table --create="worker"
+
+
+   $table->string('name');
+            $table->string('phonenumber');
+
+php artisan migrate
+
+
+
+
+=>Avaliable Column Types 
+$table->id();
+$table->bigIncrements('id');
+$table->bigInteger('id);
+$table->bigInteger('id');
+$table->unsignedInteger('id');  only plus value 
+$table->smallInteger('votes'); 3 or 4 lone 
+$table->binary('photo');
+$table->boolean('comfirmed');
+$table->char('name',30);  
+$table->string('name',30);  
+$table->text('descripttion');
+$table->tinytext('notes'); 
+$table->mediumtext('notes'); 
+$table->longtext('notes'); 
+$table->time('bookingtime'); 
+$table->date('created_at'); 
+$table->year('birthyear'); 
+$table->timestamps(); 
+$table->decimal('amount',precision(bal na lone),scale(. bal na lone yuu mar lal)); 
+$table->float('measure',precision,scale); 
+$table->enum('payment',['precision,scale]);  
+$table->enum('payment',['visa','mpu''cod','kpay','wave']);  
+$table->json('multipone');  
+
+
+
+
+
+
+=>List all file from database > migrations files 
+php artisan migrate:status 
+
+=>Undo Migragte 
+php artisan migrate:rollback 
+php artisan migrate:rollback --step=2 
+php artisan migrate:rollback --pretend 
+php artisan migrate:reset
+php artisan migrate:refresh    [rollback -> migrations]=  DELETE DATA and batch 1
+
+
+=>Delete all datas (auto rollback and auto migrate)
+php artisan migrate:refresh
+
+
+=>Delte all datas (auto rollback and automigrate/selected  table count to local by DESC )
+php artisan migrate:refresh --step=3
+
+
+
+=>Add New Columns 
+php artisan make:migration add_city_to_workers_table --table=workers
+
+
+$stable->string('city); to add_city_to_workers_table 
+php artisan migrate 
+
+
+=>Sort Column 
+php artisan migrate:rollback --pretend 
+php artisan migrate:rollback 
+$table->string('city)->after('phonenumber'); to add_city_to_workers_table
+
+
+php artisan make:migration add_city_to_employees_table --table --table=employees 
+$table->string('city')->after('phonenumber');
+=>down 
+$table->dropColumn('city');
+
+php artisan migrate 
+php artisan migrate:status 
+php artisan migrate:rollback rollback --pretend 
+php artisan migrate:rollback 
+php artisan migrate
+
+
+
+=>Drop Columns 
+php artisan make:migration remove_id_to_students_table --table=students 
+$table->dropColumn('id');
+php artisan migrate 
+php artisan migrate:status 
+php artisan migrate:rollback --pretend 
+php artisan migrate:rollback 
+php artisan migrate 
+
+
+
+php artisan make:migration remove_id_to-worker_table --table=worker 
+=>up 
+$table->dropColumn(['id','phonenumber']);
+=>down
+$table->id();
+$table->string('phonenumber')->after('fullname');
+php artisan migrate 
+php artisan migrate:status 
+php artisan migrate:rollback --pretend 
+php artisan migrate:rollback 
+php artisan migrate 
+
+
+
+php artisan make:migration remove_addcolumn_to-shopper_table --table=shopper 
+=>up 
+
+Note:: hasColumn(table,columnname)
+
+if(Schema::hasColumn('staffs','id')){
+   Schema::table('staffs',function(Blueprint $table){
+      $table->dropColumn('id');
+   });
+}
+
+
+=>down
+$table->id()->first();
+php artisan migrate 
+php artisan migrate:status 
+php artisan migrate:rollback --pretend 
+php artisan migrate:rollback 
+php artisan migrate 
+
+
+=>Rename columns renameColumn(from,to)
+php artisan make:migration rename_students_column --table=students 
+=>up 
+$table->renameColumn('phonenumber','phone');
+$table->renameColumn('city','address');
+
+php artisan migrate 
+php artisan migrate:status 
+php artisan migrate:rollback --pretend 
+php artisan migrate:rollback 
+php artisan migrate 
+
+
+=>Rename Tablename 
+php artisan make:migration rename_employees_to_customers_table --table=employees 
+
+=>up 
+Schema:;rename('employees','customers')
+
+=>down 
+Schema::rename('customer','employees');
+
+php artisan migrate 
+php artisan migrate:status 
+php artisan migrate:rollback --pretend 
+php artisan migrate:rollback 
+php artisan migrate 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Note 
+//morphs =  mac address  /device names 
+// imei at phone  and mac address at computer   call
+
+
+
+student ထဲမှာ နိမ်းနဲ့ ဖုန်းနံပါတ်နဲ့ ရောက်သွားပြီ 
+ဒါပေမယ့် လိပ်စာ ထပ်ထည့်ချင်တယ် 
+
+အသစ်တိုးလိုက်တာမို့ မိုက်ဂရိတ်လုပ်ချင်ရင်  မိုက်ဂရိတ်လုပ်ထားတဲ့ ကောင်ကို undo ပြန်လုပ်မယ် 
+php artisan migrate:rollback 
+
+ပထမတစ်ကြိမ် လေးခု 
+ဒုတိယ တစ်ခု    ဆာဗာပေါ်ရာက်တယ် 
+
+ တစ်ကြိမ် ရိုးဘက် လုပ်ရင် sec ka လိုကယ်ထဲပြန် 
+ နောက်တစ်ကြိမ် လုပ်  တေဘယ် လေးခုက အောက်ပြန်ရောက်လာ 
+
+next time will be 5 
+
+
+
+
+
+
+
+
+rollback by batch a lite swal htore (*** a yan DANGEROUS)
+step  = table ko swal htote (table အရေအတွက်နဲ့ သွားယူတာ)
+
+
+data မရှိသေးတဲ့ အခါမှ သုံး rollback & step 
+
+
+
+--pretend  က ဒီဟာတွေတော့ ဒေတာမရှိဘူး ပြန်ခေါ် မှာ သေချာလား မေးတယ် 
+
+
+
+
+reset  က တေဘယ်တွေ အကုန်လုံးးးးးးးးးးးးးးးးးးးးး ကို ဖြတ်ချပလိုက်တာ 
+
+
+
+
+
+
+migrate:refresh   =  နောက်ဆုံးကနေ ဖျက်သွားးးးးးတာ     rollback and auto migrate  / နောက်ဆုံးကနေ ဖျက်တာ 
+
+
+
+
+
+
+24RN 

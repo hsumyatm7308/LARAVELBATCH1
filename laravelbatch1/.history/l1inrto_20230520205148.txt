@@ -1,0 +1,14 @@
+=>MVC Framewordk (Model,View,Controller)
+
+Model 
+it's work with database (Select,Insert,Update,Delete)
+
+
+
+View 
+A view is that part of the application that represents the presentation of data 
+.html/css/boostrap/etc....
+
+
+Controller 
+the controller recieves input from the user , process the requst (GET,POST ,PUT,DELETE)

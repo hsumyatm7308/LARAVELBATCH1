@@ -1,0 +1,67 @@
+=>Model 
+=>Dataabase Eloquent ORM (Object-Relational Mapper)
+
+=>Generate Model Class (Model typically live in the app/Models directory and extends)
+Illuminate\Database\Eloquent\Model class 
+
+=>Command Line (Just Model)
+php artisan make:model Post 
+
+=>Command Line (Model + Migration)
+php artisan make:model Article --migration 
+or 
+php artisan make:model Article -m 
+
+---------------------------------
+
+=>Useful Keyword in Model 
+Table Name 
+protected $table = 'articles';
+
+=Custommize 
+const CREATED_AT = 'created_at';
+const UPDATED_AT = 'updated_at';
+
+php artisan migrate:status 
+php artisan migrate 
+
+
+------------------------------
+
+
+=> Retrieving Datas By Model (Single / Multid)
+
+
+
+Route::get('article/read',function(){
+    // use App\Models\Article
+    $articles = Article::all();
+    return $articles;
+    // return "Hello";
+
+
+    foreach($articles as $article){
+        echo "$article->title  <br> $article->description";
+    } 
+});
+
+
+
+=>Retrieve a model by primary key from model 
+
+  Route::get('article/find',function(){
+    // use App\Models\Article
+    // $articles = Article::find(5);
+
+    // =Not Found Exception 
+    $articles = Article::findOrFail(20); //404 NOT FOUND    
+    return $articles;
+
+
+
+
+   
+});
+
+
+=>Reteriveing Data machining by whre method 

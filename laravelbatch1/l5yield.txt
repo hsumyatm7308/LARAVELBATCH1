@@ -1,0 +1,14 @@
+=>yield(,)
+
+@session(,)
+
+ php artisan make:controller dashboardsController
+
+ Route::get('/dashboards',[dashboardsController::class,'index'])->name('dashboards.index');
+
+
+@section('')
+@endsection
+
+@section('')
+@stop

@@ -1,0 +1,5 @@
+data ko public share chin yin  
+
+=>Public 
+
+app > providers > AppServiceProvider.php

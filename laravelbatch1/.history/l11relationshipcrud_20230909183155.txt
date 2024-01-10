@@ -1,0 +1,121 @@
+=>Eloquent One to One Relationship 
+
+=>Migration 
+
+php artisan make:model Phone -m 
+$table->string('number');
+$table->integer('user_id')->unsignedBigInteger();
+
+php artisan migrate:status 
+php artisan migrate;
+
+
+=In Model (Phone.php)
+   protected $table = "phones";
+    protected $primaryKey = "id";
+    protected $fillable = [
+        'number',
+        'user_id'
+    ];
+
+
+=In Model (User.php)
+public function phone(){
+        return $this->hasOne(Phone::class);
+}
+
+
+In Web 
+Route::get('users/{id}/phone/insert', function ($id) {
+    $user = User::findOrFail($id);
+
+    // Method 1 
+    // $phone = new Phone;
+    // $phone->number = "09444444";
+    // $phone->user_id = $user->id;
+    // $phone->save();
+    // return "data insert";
+
+    // Method 2   // User_id must be include 
+    // $phone = Phone::create([
+    //     'number'=>'09555555',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // return "Data Inserted";
+
+    // Method 3 
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+    // Method 4  //No ndeed user id
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+
+    // Method 5  //No ndeed user id
+    $user->phone()->save(new Phone([
+        'number' => '09666666'
+    ]));
+
+    return "Data Inserted";
+
+
+
+
+
+
+});
+
+
+Route::get('users/{id}/phone/update', function ($id) {
+    //   $phone = Phone::whereUserId($id)->first();
+//   $phone->number = "09-111-111";
+//   $phone->save();
+//   return "Data Updated";
+
+    $phones = Phone::whereUserId($id)->get();
+    foreach ($phones as $phone) {
+        $phone->number = "09-111-112";
+        $phone->save();
+    }
+    return "Data Update";
+});
+
+
+Route::get('users/{id}/phone/read', function ($id) {
+
+    $user = User::findOrFail($id);
+    $user = $user->phone->number;
+    return "Data Reading = $user";
+});
+
+
+
+Route::get('users/{id}/phone/delete', function ($id) {
+//    $user = User::findOrFail($id); //Single delete 
+//    $user->phone->delete();
+//    return "Data delete $user";
+
+
+   $user = User::findOrFail($id); //Bulk delete 
+   $user->phone()->delete();
+   return "Data delete $user";
+});
+
+
+
+--------------------------------------------
+
+=>Eloquent One to Many  (hasMany)

@@ -1,0 +1,566 @@
+=>Eloquent One to One Relationship 
+
+=>Migration 
+
+php artisan make:model Phone -m 
+$table->string('number');
+$table->integer('user_id')->unsignedBigInteger();
+
+php artisan migrate:status 
+php artisan migrate;
+
+
+=In Model (Phone.php)
+   protected $table = "phones";
+    protected $primaryKey = "id";
+    protected $fillable = [
+        'number',
+        'user_id'
+    ];
+
+
+=In Model (User.php)
+public function phone(){
+        return $this->hasOne(Phone::class);
+}
+
+
+In Web 
+Route::get('users/{id}/phone/insert', function ($id) {
+    $user = User::findOrFail($id);
+
+    // Method 1 
+    // $phone = new Phone;
+    // $phone->number = "09444444";
+    // $phone->user_id = $user->id;
+    // $phone->save();
+    // return "data insert";
+
+    // Method 2   // User_id must be include 
+    // $phone = Phone::create([
+    //     'number'=>'09555555',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // return "Data Inserted";
+
+    // Method 3 
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+    // Method 4  //No ndeed user id
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+
+    // Method 5  //No ndeed user id
+    $user->phone()->save(new Phone([
+        'number' => '09666666'
+    ]));
+
+    return "Data Inserted";
+
+
+
+
+
+
+});
+
+
+Route::get('users/{id}/phone/update', function ($id) {
+    //   $phone = Phone::whereUserId($id)->first();
+//   $phone->number = "09-111-111";
+//   $phone->save();
+//   return "Data Updated";
+
+    $phones = Phone::whereUserId($id)->get();
+    foreach ($phones as $phone) {
+        $phone->number = "09-111-112";
+        $phone->save();
+    }
+    return "Data Update";
+});
+
+
+Route::get('users/{id}/phone/read', function ($id) {
+
+    $user = User::findOrFail($id);
+    $user = $user->phone->number;
+    return "Data Reading = $user";
+});
+
+
+
+Route::get('users/{id}/phone/delete', function ($id) {
+//    $user = User::findOrFail($id); //Single delete 
+//    $user->phone->delete();
+//    return "Data delete $user";
+
+
+   $user = User::findOrFail($id); //Bulk delete 
+   $user->phone()->delete();
+   return "Data delete $user";
+});
+
+
+
+--------------------------------------------
+
+=>Eloquent One to Many  (hasMany)
+
+=In Model (User.php)
+  public function customearticles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
+=In Model (Article.php)
+  public function userfromuserphp()
+    {
+        // return $this->belongsTo("APP\Models\Users");
+        return $this->belongsTo(User::class);
+
+    }
+
+
+
+In Web 
+
+/ =>Eloquent One to Many  (hasMany)
+Route::get('users/{id}/article/insert', function ($id) {
+    $user = User::findOrFail($id);
+
+    // Method 1 
+    // $article = new Article;
+    // $article->title = "this is articleb 1";
+    // $article->description = "Loream Ipsum is kj;a";
+    // $article->user_id = $user->id;
+    // $article->rating = 5;
+    // $article->save();
+    // return "data insert";
+
+    // Method 2   // User_id must be include 
+    // $phone = Phone::create([
+    //     'number'=>'09555555',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // return "Data Inserted";
+
+    // Method 3 
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+    // Method 4  //No ndeed user id
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+
+    // Method 5  //No ndeed user id
+    $user->customearticles()->save(new Article([
+        'title' => 'This is new article 1',
+        'description' => 'Loream Ipsum is simple',
+        'user_id' => $id,
+        'rating' => 3,
+    ]));
+
+    return "Data Inserted";
+
+
+
+
+
+
+});
+
+
+
+Route::get('users/{id}/article/update', function ($id) {
+    // $article = Article::whereUserId($id)->first();
+    // $article->title = "this is articleb 10";
+    // $article->description = "Loream Ipsum is kj;a";
+    // $article->rating = 1;
+    // $article->save();
+    // return "Data Updated";
+
+    // $articles = Article::whereUserId($id)->get();
+    // foreach ($articles as $article) {
+    //     $article->title = "this is new article 001";
+    //     $article->description = "Loream";
+    //     $article->save();
+    // }
+    // return "Data Update";
+
+    // $user = User::findOrFail($id); 
+    // $user->customearticles()->where('id' , '=', 1)->update([
+    //     'title'=>'New Title 1000',
+    //     'rating'=> 3
+    // ]);
+    // return "Data Update";
+
+
+
+    $user = User::findOrFail($id);
+    // Note:find Userid and continue search Article id 
+    // $user->customearticles()->where('id', '=', 1)->update([
+    //     'title' => 'New Title Id One',
+    //     'rating' => 5
+    // ]);
+    // return "Data Update";
+
+
+    // Note:find Userid and continue search Article id 
+    $user->customearticles()->where('rating', '=', 5)->update([
+        'title' => 'New Title rating 3',
+        'rating' => 2
+    ]);
+    return "Data Update";
+});
+
+Route::get("users/{id}/article/read", function ($id) {
+    $user = User::findOrFail($id);
+
+
+    foreach ($user->customearticles as $article) {
+        echo $article->title . "<br>";
+
+    }
+});
+
+
+Route::get("users/{id}/article/delete", function ($id) {
+
+// Route::get("users/article/delete/{rating}", function ($rating) {
+    // NOte:: error  cuz this is one to many relationship 
+    // $user = User::findOrFail($id);
+    // $user->customearticles->delete();
+
+
+    // $user = User::findOrFail($id);
+    // $user->customearticles()->whereId(7)->delete();
+    // return "Data delete";
+
+
+    // $user = User::findOrFail();
+    // $user->customearticles()->delete();
+    // return "Data delete";
+
+
+
+    // ---------------------- 
+    // $user = Article::where('rating','=',5);
+    // $user->delete();
+
+    
+
+});
+
+
+------------------------------------------
+
+=>Eloquent Many to Many Relationship / belongsToMany(class)
+
+=IN Model (Role.php)
+protected $table = "roles";
+protected $primaryKey = "id";
+protected $fillable = [
+    'name'
+]
+
+
+=In Model (User.php)
+
+    public function rolemanytomany()
+    {
+        // return $this->belongsToMany(Role::class); //obey by naming conversion
+
+        // for Custom table name 
+        // belongsToMany(primarytable,secondarytable,secondarytable_fk,primarytable_fk)
+        // belongsToMany(related,table,foreignPivotkey,relativePivotKey)
+
+
+        return $this->belongsToMany(Role::class, 'userroles', 'user_id', 'role_id');
+
+    }
+
+
+= Web 
+
+// Route::get('users/{id}/role/insert',function($id){
+//     $user = User::findOrFail($id);
+//     $user->rolemanytomany()->save(new Role([
+//      'name' => 'adviser'
+//     ]));
+
+//     return "Data Inserted";
+// });
+
+
+Route::get('users/{id}/role/update', function ($id) {
+    $user = User::findOrFail($id);
+
+    if ($user->has('roles')) {
+        foreach ($user->rolemanytomany as $role) {
+            if ($role->name = "admin") {
+                $role->name = "co-worker";
+                $role->save();
+            }
+        }
+    }
+    return $user;
+});
+
+
+
+
+Route::get('users/{id}/role/read', function ($id) {
+    $user = User::findOrFail($id);
+
+    if ($user->has('roles')) {
+        foreach ($user->rolemanytomany as $role) {
+            $role->name . "<br";
+        }
+    }
+
+});
+
+
+
+
+Route::get('users/{id}/role/delete', function ($id) {
+
+    // single delete 
+
+    // $user = User::findOrFail($id);
+    // foreach($user->roles as $role){
+    //     $role->whereId(4)->delete();
+    // }
+
+
+    // Bulk delete 
+    $user = User::findOrFail($id);
+    $user->roles()->delete();
+    return "Data Deleted";
+});
+
+
+
+Route::get('users/{id}/role/attach', function ($id) {
+
+    // Note:: check Role table  & UserRoletable (no action/action)
+    // Note   :: added role permissionn to user id 
+    $user = User::findOrFail($id);
+    $user->roles()->attach(5);
+    return "Data Deleted";
+});
+
+
+
+Route::get('users/{id}/role/detach',function($id){
+    // remobed user permmision for refer user id 
+    $user = User::findOrFail($id);
+    $user->roles()->detach(5);
+    return "Data Deleted";
+});
+
+
+
+
+
+Route::get('users/{id}/role/sync',function($id){
+
+    // Note :: wabt to keep only role id 2 for refer user id 
+    $user = User::findOrFail($id);
+    // $user->roles()->sync(2);
+
+
+    // want to keep only role id 2 , 4 for refer user id 
+    // $user->roles()->sync([2,4]);
+
+
+    // want to keep existing role 2,4 and add more role id 1,5 for refer user id  
+    $user->roles()->sync([2,4,1,5]);
+
+    
+
+    return "Data Synced";
+});
+
+
+
+---------------------------------------------------------------
+
+=>Eloquent Polymorphic Relationship  morphTo() morphMany()
+
+=In Modal 
+
+ ( Photo.php )
+  protected $table = "photos";
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'path',
+        'imageable_id',
+        'imageable_type'
+    ];
+
+
+
+=In Model (user.php )
+ public function photos()
+    {
+        //morphMany(relatedtable,name);
+        return $this->morphMany(Photo::class, 'imageable');
+    }
+
+
+=In model (articel.php)
+  public function photos()
+    {
+        //morphMany(relatedtable,name);
+        return $this->morphMany(Photo::class, 'imageable');  //because of           $table->interger('  ** imageable_id')->unsignedBigInteger(); 
+    }
+
+
+=In Web 
+
+
+// =>Eloquent Polymorphic Relationship  morphTo() morphMany()
+
+Route::get('users/{id}/photo/insert', function ($id) {
+    $user = User::findOrFail($id);
+    // $user->photos()->save(new Photo([
+    //     'path'=>'public\assets\photo1'
+    // ]));
+
+
+    $user->photos()->create([
+        'path' => 'public\assets\photo3'
+    ]);
+
+    return "Data insert";
+});
+
+
+
+
+Route::get('users/{id}/photo/read', function ($id) {
+    $user = User::findOrFail($id);
+
+    if ($user->has('photos')) {
+        foreach ($user->photos as $photo) {
+            echo $photo->path . "<br>";
+        }
+    }
+
+
+
+    return "Data read";
+});
+
+
+
+Route::get('users/{id}/photo/update', function ($id) {
+    $user = User::findOrFail($id);
+
+    $photo = $user->photos()->whereId(9)->first();
+
+    $photo->path = "public\assets\userphoto";
+    $photo->save();
+
+
+    return "Data Update";
+
+});
+
+
+
+
+Route::get('users/{id}/photo/updateimgtype', function ($id) {
+    $user = User::findOrFail($id);
+
+    $photo = Photo::findOrFail(1);
+
+
+    $photo->save($photo);
+
+
+    return "Data update";
+});
+
+
+
+
+
+Route::get('users/{id}/photo/delete', function ($id) {
+    $user = User::findOrFail($id);
+    $user->photos()->whereId(1)->delete();
+  
+
+    // $user->photos()->delete();
+
+
+
+
+    return "Data delete";
+});
+
+----------------------------------------------------------------------
+
+=>Eloquent Polymorphic Many to Many Relationship 
+
+=In Model (Item.php)
+
+pbulic function tags(){
+    return $this->morphToMany(Tag::class,'taggable')
+}
+
+
+
+    protected $table = "items";
+    protected $primaryKey = "id";
+    protected $fillable = [
+   
+        'name'
+    ];
+
+
+    public function tags(){
+        //morphedToMany(relatedtable,name)
+    
+        return $this->morphToMany(Tag::class,'taggable');
+    }
+
+In tag.php
+
+public function articles(){
+    return $this->morphToMany(Tag:;class,'taggable')
+}
+
+public function items(){
+    return $this->morphedByMany(Item::class,'taggable')
+}
+

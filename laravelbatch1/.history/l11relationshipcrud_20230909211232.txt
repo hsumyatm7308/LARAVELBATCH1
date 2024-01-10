@@ -1,0 +1,279 @@
+=>Eloquent One to One Relationship 
+
+=>Migration 
+
+php artisan make:model Phone -m 
+$table->string('number');
+$table->integer('user_id')->unsignedBigInteger();
+
+php artisan migrate:status 
+php artisan migrate;
+
+
+=In Model (Phone.php)
+   protected $table = "phones";
+    protected $primaryKey = "id";
+    protected $fillable = [
+        'number',
+        'user_id'
+    ];
+
+
+=In Model (User.php)
+public function phone(){
+        return $this->hasOne(Phone::class);
+}
+
+
+In Web 
+Route::get('users/{id}/phone/insert', function ($id) {
+    $user = User::findOrFail($id);
+
+    // Method 1 
+    // $phone = new Phone;
+    // $phone->number = "09444444";
+    // $phone->user_id = $user->id;
+    // $phone->save();
+    // return "data insert";
+
+    // Method 2   // User_id must be include 
+    // $phone = Phone::create([
+    //     'number'=>'09555555',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // return "Data Inserted";
+
+    // Method 3 
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+    // Method 4  //No ndeed user id
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+
+    // Method 5  //No ndeed user id
+    $user->phone()->save(new Phone([
+        'number' => '09666666'
+    ]));
+
+    return "Data Inserted";
+
+
+
+
+
+
+});
+
+
+Route::get('users/{id}/phone/update', function ($id) {
+    //   $phone = Phone::whereUserId($id)->first();
+//   $phone->number = "09-111-111";
+//   $phone->save();
+//   return "Data Updated";
+
+    $phones = Phone::whereUserId($id)->get();
+    foreach ($phones as $phone) {
+        $phone->number = "09-111-112";
+        $phone->save();
+    }
+    return "Data Update";
+});
+
+
+Route::get('users/{id}/phone/read', function ($id) {
+
+    $user = User::findOrFail($id);
+    $user = $user->phone->number;
+    return "Data Reading = $user";
+});
+
+
+
+Route::get('users/{id}/phone/delete', function ($id) {
+//    $user = User::findOrFail($id); //Single delete 
+//    $user->phone->delete();
+//    return "Data delete $user";
+
+
+   $user = User::findOrFail($id); //Bulk delete 
+   $user->phone()->delete();
+   return "Data delete $user";
+});
+
+
+
+--------------------------------------------
+
+=>Eloquent One to Many  (hasMany)
+
+=In Model (User.php)
+  public function customearticles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
+=In Model (Article.php)
+  public function userfromuserphp()
+    {
+        // return $this->belongsTo("APP\Models\Users");
+        return $this->belongsTo(User::class);
+
+    }
+
+
+
+In Web 
+
+/ =>Eloquent One to Many  (hasMany)
+Route::get('users/{id}/article/insert', function ($id) {
+    $user = User::findOrFail($id);
+
+    // Method 1 
+    // $article = new Article;
+    // $article->title = "this is articleb 1";
+    // $article->description = "Loream Ipsum is kj;a";
+    // $article->user_id = $user->id;
+    // $article->rating = 5;
+    // $article->save();
+    // return "data insert";
+
+    // Method 2   // User_id must be include 
+    // $phone = Phone::create([
+    //     'number'=>'09555555',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // return "Data Inserted";
+
+    // Method 3 
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    //     'user_id'=>$user->id
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+    // Method 4  //No ndeed user id
+    // $phone = new Phone([
+    //     'number' => '09666666',
+    // ]);
+
+    // $user->phone()->save($phone);  //user_id  ma pay lal ya tal 
+    // return "Data Inserted";
+
+
+
+    // Method 5  //No ndeed user id
+    $user->customearticles()->save(new Article([
+        'title' => 'This is new article 1',
+        'description' => 'Loream Ipsum is simple',
+        'user_id' => $id,
+        'rating' => 3,
+    ]));
+
+    return "Data Inserted";
+
+
+
+
+
+
+});
+
+
+
+Route::get('users/{id}/article/update', function ($id) {
+    // $article = Article::whereUserId($id)->first();
+    // $article->title = "this is articleb 10";
+    // $article->description = "Loream Ipsum is kj;a";
+    // $article->rating = 1;
+    // $article->save();
+    // return "Data Updated";
+
+    // $articles = Article::whereUserId($id)->get();
+    // foreach ($articles as $article) {
+    //     $article->title = "this is new article 001";
+    //     $article->description = "Loream";
+    //     $article->save();
+    // }
+    // return "Data Update";
+
+    // $user = User::findOrFail($id); 
+    // $user->customearticles()->where('id' , '=', 1)->update([
+    //     'title'=>'New Title 1000',
+    //     'rating'=> 3
+    // ]);
+    // return "Data Update";
+
+
+
+    $user = User::findOrFail($id);
+    // Note:find Userid and continue search Article id 
+    // $user->customearticles()->where('id', '=', 1)->update([
+    //     'title' => 'New Title Id One',
+    //     'rating' => 5
+    // ]);
+    // return "Data Update";
+
+
+    // Note:find Userid and continue search Article id 
+    $user->customearticles()->where('rating', '=', 5)->update([
+        'title' => 'New Title rating 3',
+        'rating' => 2
+    ]);
+    return "Data Update";
+});
+
+Route::get("users/{id}/article/read", function ($id) {
+    $user = User::findOrFail($id);
+
+
+    foreach ($user->customearticles as $article) {
+        echo $article->title . "<br>";
+
+    }
+});
+
+
+Route::get("users/{id}/article/delete", function ($id) {
+
+// Route::get("users/article/delete/{rating}", function ($rating) {
+    // NOte:: error  cuz this is one to many relationship 
+    // $user = User::findOrFail($id);
+    // $user->customearticles->delete();
+
+
+    // $user = User::findOrFail($id);
+    // $user->customearticles()->whereId(7)->delete();
+    // return "Data delete";
+
+
+    // $user = User::findOrFail();
+    // $user->customearticles()->delete();
+    // return "Data delete";
+
+
+
+    // ---------------------- 
+    // $user = Article::where('rating','=',5);
+    // $user->delete();
+
+    
+
+});
