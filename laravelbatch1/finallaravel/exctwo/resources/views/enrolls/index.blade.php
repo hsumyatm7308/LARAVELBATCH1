@@ -2,7 +2,6 @@
 @section('caption',"Enrolls List")
 @section('content')
 
-@dump($enrolls)
 
 <!--Start Page Content Area-->
 

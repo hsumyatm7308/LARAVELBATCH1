@@ -18,7 +18,7 @@
                    </div>
 
                    <div class="col-md-3 form-group">
-                    <label for="post_id"> Status <span class="text-danger">*</span></label>
+                    <label for="post_id"> Class <span class="text-danger">*</span></label>
 
                     <select name="post_id" id="post_id" class="form-control form-control-sm rounded-0">
                         @foreach($posts as $post)
