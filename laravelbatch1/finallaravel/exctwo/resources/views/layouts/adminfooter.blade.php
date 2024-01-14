@@ -73,7 +73,31 @@
 
 	<!-- custom js js1 -->
 	<script src="{{asset('assets/dis/js/app1.js')}}" type="text/javascript"></script>
+    {{-- toastr css 1 js 1  --}}
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" type="text/javascript"></script>
 
+	<script>
+		@if(session()->has('success'))
+		  toastr.success('{{session()->get('success')}}')
+		   
+
+		@endif
+
+		@if(session()->has('info'))
+		  toastr.info('{{session()->get('info')}}')
+		   
+
+		@endif
+
+		@if($errors)
+		  @foreach($errors->all() as $error)
+		  toastr.error('$error', 'Inconceivable!')
+
+		  @endforeach
+
+		@endif
+
+	</script>
 	{{-- extra js --}}
 	@yield('script');
 

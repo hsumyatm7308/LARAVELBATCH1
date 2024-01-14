@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendancesController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\CountriesController;
+use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\DaysController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\EdulinksController;
 use App\Http\Controllers\EnrollsController;
 use App\Http\Controllers\GendersController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\RelativesController;
+
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\StatusesController;
 use App\Http\Controllers\StudentsController;
@@ -53,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('attendances', AttendancesController::class);
     Route::resource('cities', CitiesController::class);
     Route::resource('countries', CountriesController::class);
+    Route::resource('contacts', ContactsController::class);
     Route::resource('categories', CategoriesController::class);
     Route::resource('comments', CommentsController::class);
     Route::resource('days', DaysController::class);
@@ -64,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('stages', StagesController::class);
     Route::resource('posts', PostsController::class);
     Route::resource('roles', RolesController::class);
+    Route::resource('roles', RelativesController::class);
 
     Route::resource('types', TypesController::class);
     Route::resource('tags', TagsController::class);

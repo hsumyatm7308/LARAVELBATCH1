@@ -28,3 +28,24 @@ return new class extends Migration {
         Schema::dropIfExists('edulinks');
     }
 };
+
+
+
+
+// for  relative
+
+// $table->string('name')->unique();
+// $table->string('slug');
+// $table->string('status_id');
+// $table->string('user_id');
+
+
+// for contacts 
+// sting('firstname')
+// string('lastname')->nullable();
+// string('birthday')->nullable();
+// unsignedBiginteger('relative_id');
+// unsignedBiginteger('user_id')->constrained(
+//     table: 'users',
+//     indexName: 'contacts_users_id'
+// )->onUpdate('cascade')->onDelete('cascade');

@@ -88,19 +88,15 @@
 
                             <li class="nav-item"><a href="javascript:void(0);"
                                     class="nav-link text-white p-3 mb-2 sidebarlinks" data-bs-target="#iconselement"
-                                    data-bs-toggle="collapse"><i class="fas fa-file-alt fa-lg me-3"></i>Icons<i
-                                        class="fas fa-angle-left mores"></i></a>
+                                    data-bs-toggle="collapse"><i class="fas fa-file-alt fa-lg me-3"></i>Apps<i
+                                        class="fas fa-share-alt-square mores"></i></a>
 
                                 <ul id="iconselement" class="collapse ps-2">
+                                    <li><a href="{{route('contacts.index')}}" class="nav-link text-white sidebarlinks"><i
+                                                class="fas fa-long-arrow-alt-right me-4"></i>Contacts</a></li>
                                     <li><a href="javascript:void(0);" class="nav-link text-white sidebarlinks"><i
-                                                class="fas fa-long-arrow-alt-right me-4"></i>Material</a></li>
-                                    <li><a href="javascript:void(0);" class="nav-link text-white sidebarlinks"><i
-                                                class="fas fa-long-arrow-alt-right me-4"></i>Flat Icons</a></li>
-                                    <li><a href="javascript:void(0);" class="nav-link text-white sidebarlinks"><i
-                                                class="fas fa-long-arrow-alt-right me-4"></i>Font Awesome</a></li>
-                                    <li><a href="javascript:void(0);" class="nav-link text-white sidebarlinks"><i
-                                                class="fas fa-long-arrow-alt-right me-4"></i>Simple Line Icons</a>
-                                    </li>
+                                                class="fas fa-long-arrow-alt-right me-4"></i>Todo</a></li>
+                                  
 
                                 </ul>
 
@@ -217,6 +213,8 @@
                                                 class="fas fa-long-arrow-alt-right me-4"></i>Data Table</a></li>
                                     <li><a href="javascript:void(0);" class="nav-link text-white sidebarlinks"><i
                                                 class="fas fa-long-arrow-alt-right me-4"></i>Sortable table</a></li>
+                                    <li><a href="" class="nav-link text-white sidebarlinks"><i
+                                                    class="fas fa-long-arrow-alt-right me-4"></i>Sortable table</a></li>
                                 </ul>
 
                             </li>
