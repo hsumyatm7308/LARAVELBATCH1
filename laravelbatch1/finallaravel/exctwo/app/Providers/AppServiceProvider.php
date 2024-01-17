@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,9 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('*',function($view){
-                        // name
-            $view->with('userdata',Auth::user());
+        View::composer('*', function ($view) {
+            // name
+            $view->with('userdata', Auth::user());
         });
+
+        Paginator::useBootstrapFive();
     }
+
+
 }

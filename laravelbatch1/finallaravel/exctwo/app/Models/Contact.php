@@ -30,4 +30,39 @@ class Contact extends Model
         return $this->belongsTo(Relatives::class);
     }
 
+
+    public function scopezafirstname($query)
+    {
+        return $query->orderBy('firstname', 'asc');
+    }
+
+
+
+
+    public function scopesearchonly($query)
+    {
+
+        if ($getsearch = request('search')) {
+            $query->where('firstname', 'LIKE', '%' . $getsearch . '%')
+                ->orWhere('lastname', 'LIKE', '%' . $getsearch . '%')
+                ->orWhere('birthday', 'LIKE', '%' . $getsearch . '%')
+                //orWhereHas(relationship table, callback)
+                ->orWhereHas('relative', function ($query) use ($getsearch) {
+                    $query->where('name', 'LIKE', '%' . $getsearch . '%');
+                });
+
+        }
+
+        return $query;
+    }
+
+    public function scopefilteronly($query)
+    {
+        if ($getfilter = request('filter')) {
+            $query->where('relative_id', $getfilter);
+        }
+
+        return $query;
+    }
+
 }

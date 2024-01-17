@@ -15,7 +15,9 @@ class ContactsController extends Controller
 
     public function index()
     {
-        $data['contacts'] = Contact::all();
+        // $data['contacts'] = Contact::paginate(5);
+        $data['contacts'] = Contact::filteronly()->searchonly()->zafirstname()->paginate(5)->withQueryString();
+
         $relatives = Relatives::pluck('name', 'id')->prepend('Choose relatives', '');
         return view('contacts.index', $data, compact('relatives'));
     }
@@ -25,7 +27,9 @@ class ContactsController extends Controller
     {
         $this->validate($request, [
             'firstname' => 'required|min:3|max:50',
-            'lastname' => 'max:50'
+            'lastname' => 'max:50',
+            'birthday' => 'nullable',
+            'relative_id' => 'nullable'
         ]);
 
         $user = Auth::user();
@@ -49,8 +53,10 @@ class ContactsController extends Controller
     public function update(Request $request, string $id)
     {
         $this->validate($request, [
-            'name' => ['required', 'max:50', 'unique:contacts,name,' . $id],
-            'status_id' => ['required', 'in:3,4']
+            'firstname' => 'required|min:3|max:50',
+            'lastname' => 'max:50',
+            'birthday' => 'nullable',
+            'relative_id' => 'nullable'
         ]);
 
         $user = Auth::user();
@@ -58,12 +64,14 @@ class ContactsController extends Controller
 
         $contact = contact::findOrFail($id);
 
-        $contact->name = $request['name'];
-        $contact->slug = Str::slug($request['name']);
-        $contact->status_id = $request['status_id'];
+        $contact->firstname = $request['firstname'];
+        $contact->lastname = $request['lastname'];
+        $contact->birthday = $request['birthday'];
+        $contact->relative_id = $request['relative_id'];
         $contact->user_id = $user_id;
 
         $contact->save();
+        session()->flash('success', 'Update Successful');
         return redirect(route('contacts.index'));
     }
 

@@ -75,9 +75,14 @@
 	<script src="{{asset('assets/dis/js/app1.js')}}" type="text/javascript"></script>
     {{-- toastr css 1 js 1  --}}
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" type="text/javascript"></script>
-
+     <script type="text/javascript">
+	    toastr.options = {
+			'porgressBar':true,
+			'closeButton':true
+		}	 
+	 </script>
 	<script>
-		@if(session()->has('success'))
+		@if(Session::has('success'))
 		  toastr.success('{{session()->get('success')}}')
 		   
 
@@ -91,7 +96,7 @@
 
 		@if($errors)
 		  @foreach($errors->all() as $error)
-		  toastr.error('$error', 'Inconceivable!')
+		    toastr.error('{{$error}}', 'Inconceivable!',{timeOut:1000}) 
 
 		  @endforeach
 
