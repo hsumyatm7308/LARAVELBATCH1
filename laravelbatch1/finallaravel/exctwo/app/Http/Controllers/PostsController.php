@@ -18,28 +18,28 @@ use App\Models\Type;
 
 class PostsController extends Controller
 {
-  
+
     public function index()
     {
         $posts = Post::all();
-        return view('posts.index',compact('posts'));
+        return view('posts.index', compact('posts'));
     }
 
-  
+
     public function create()
     {
-        $attshows = Status::whereIn('id',[3,4])->get();
-        $days = Day::where('status_id',3)->get();
-        $statuses = Status::whereIn('id',[7,10,11])->get();
-        $tags = Tag::where('status_id',3)->get();
-        $types = Type::whereIn('id',[1,2])->get();
-        return view('posts.create',compact('attshows','days','statuses','tags','types'));
+        $attshows = Status::whereIn('id', [3, 4])->get();
+        $days = Day::where('status_id', 3)->get();
+        $statuses = Status::whereIn('id', [7, 10, 11])->get();
+        $tags = Tag::where('status_id', 3)->get();
+        $types = Type::whereIn('id', [1, 2])->get();
+        return view('posts.create', compact('attshows', 'days', 'statuses', 'tags', 'types'));
     }
 
-   
+
     public function store(Request $request)
     {
-        $this -> validate($request,[
+        $this->validate($request, [
             'image' => 'image|mimes:jpg,jpeg,png|max:10024',
             'title' => 'required|max:300|unique:posts,title',
             'content' => 'required',
@@ -59,34 +59,34 @@ class PostsController extends Controller
 
         $post = new Post();
 
-        $post -> title = $request['title'];  
-        $post -> slug = Str::slug($request['title']);   
-        $post -> content = $request['content']; 
-        $post -> fee = $request['fee']; 
-        $post -> startdate = $request['startdate']; 
-        $post -> enddate = $request['enddate']; 
-        $post -> starttime = $request['starttime']; 
-        $post -> endtime = $request['endtime']; 
-        $post -> type_id = $request['type_id']; 
-        $post -> tag_id = $request['tag_id']; 
-        $post -> attshow = $request['attshow'];  
-        $post -> status_id = $request['status_id'];
-        $post -> user_id = $user_id;
+        $post->title = $request['title'];
+        $post->slug = Str::slug($request['title']);
+        $post->content = $request['content'];
+        $post->fee = $request['fee'];
+        $post->startdate = $request['startdate'];
+        $post->enddate = $request['enddate'];
+        $post->starttime = $request['starttime'];
+        $post->endtime = $request['endtime'];
+        $post->type_id = $request['type_id'];
+        $post->tag_id = $request['tag_id'];
+        $post->attshow = $request['attshow'];
+        $post->status_id = $request['status_id'];
+        $post->user_id = $user_id;
 
-         //Single Image Upload 
-         if(file_exists($request['image'])){
+        //Single Image Upload 
+        if (file_exists($request['image'])) {
             $file = $request['image'];
-            $fname = $file -> getClientOriginalName();
-            $imagenewname = uniqid($user_id).$post['id'].$fname;
-            $file -> move(public_path('assets/img/posts/'),imagenewname);
+            $fname = $file->getClientOriginalName();
+            $imagenewname = uniqid($user_id) . $post['id'] . $fname;
+            $file->move(public_path('assets/img/posts/'), imagenewname);
 
-            $filepath = "assets/img/posts/".$imagenewname;
-            $post -> image = $file;
+            $filepath = "assets/img/posts/" . $imagenewname;
+            $post->image = $filepath;
         }
-        
-        $post -> save();
 
-        if($post->id){
+        $post->save();
+
+        if ($post->id) {
             // dd($request['day_id']);
             //create dayable 
 
@@ -103,9 +103,9 @@ class PostsController extends Controller
             // }
 
             //Method 2
-            if(count($request['day_id']) > 0){
-                foreach($request['day_id'] as $key=>$value){
-                   $day = [
+            if (count($request['day_id']) > 0) {
+                foreach ($request['day_id'] as $key => $value) {
+                    $day = [
                         // 'day_id' => $request['day_id'][$key],
                         'day_id' => $value,
                         'dayable_id' => $post['id'],
@@ -120,38 +120,38 @@ class PostsController extends Controller
         return redirect(route('posts.index'));
     }
 
-    
+
     public function show(string $id)
     {
-        
+
 
         $post = Post::findOrFail($id);
         // dd($post->checkenroll(1));
         $dayables = $post->days()->get();
-        $comments = Comment::where('commentable_id',$post->id)->where('commentable_type','App\Models\Post')->orderBy('created_at','desc')->get();
+        $comments = Comment::where('commentable_id', $post->id)->where('commentable_type', 'App\Models\Post')->orderBy('created_at', 'desc')->get();
         // $comments = $post->comments()->orderBy('updated_at','desc')->get();
-        return view('posts.show',['post'=>$post,'dayables'=>$dayables,'comments'=>$comments]);
+        return view('posts.show', ['post' => $post, 'dayables' => $dayables, 'comments' => $comments]);
     }
-   
+
     public function edit(string $id)
     {
         $post = Post::findOrFail($id);
-        $attshows = Status::whereIn('id',[3,4])->get();
-        $days = Day::where('status_id',3)->get();
+        $attshows = Status::whereIn('id', [3, 4])->get();
+        $days = Day::where('status_id', 3)->get();
         $dayables = $post->days()->get();
         // dd($dayables);
-        $statuses = Status::whereIn('id',[7,10,11])->get();
-        $tags = Tag::where('status_id',3)->get();
-        $types = Type::whereIn('id',[1,2])->get();
-        return view('posts.edit',compact('post','attshows','days','dayables','statuses','tags','types'));
+        $statuses = Status::whereIn('id', [7, 10, 11])->get();
+        $tags = Tag::where('status_id', 3)->get();
+        $types = Type::whereIn('id', [1, 2])->get();
+        return view('posts.edit', compact('post', 'attshows', 'days', 'dayables', 'statuses', 'tags', 'types'));
     }
 
-   
+
     public function update(Request $request, string $id)
     {
-        $this -> validate($request,[
+        $this->validate($request, [
             'image' => 'image|mimes:jpg,jpeg,png|max:10024',
-            'title' => 'required|max:300|unique:posts,title,'.$id,
+            'title' => 'required|max:300|unique:posts,title,' . $id,
             'content' => 'required',
             'fee' => 'required',
             'startdate' => 'required',
@@ -169,64 +169,64 @@ class PostsController extends Controller
 
         $post = Post::findOrFail($id);
 
-        $post -> title = $request['title'];  
-        $post -> slug = Str::slug($request['title']);   
-        $post -> content = $request['content']; 
-        $post -> fee = $request['fee']; 
-        $post -> startdate = $request['startdate']; 
-        $post -> enddate = $request['enddate']; 
-        $post -> starttime = $request['starttime']; 
-        $post -> endtime = $request['endtime']; 
-        $post -> type_id = $request['type_id']; 
-        $post -> tag_id = $request['tag_id']; 
-        $post -> attshow = $request['attshow'];  
-        $post -> status_id = $request['status_id'];
-        $post -> user_id = $user_id;
+        $post->title = $request['title'];
+        $post->slug = Str::slug($request['title']);
+        $post->content = $request['content'];
+        $post->fee = $request['fee'];
+        $post->startdate = $request['startdate'];
+        $post->enddate = $request['enddate'];
+        $post->starttime = $request['starttime'];
+        $post->endtime = $request['endtime'];
+        $post->type_id = $request['type_id'];
+        $post->tag_id = $request['tag_id'];
+        $post->attshow = $request['attshow'];
+        $post->status_id = $request['status_id'];
+        $post->user_id = $user_id;
 
         // Remove old Image 
-        if($request->hasFile('image')){
-            $path = $post -> image;
-            if(File::exists($path)){
+        if ($request->hasFile('image')) {
+            $path = $post->image;
+            if (File::exists($path)) {
                 File::delete($path);
             }
         }
 
 
-         //Single Image Update 
-         if($request -> hasFile('image')){
+        //Single Image Update 
+        if ($request->hasFile('image')) {
 
-            $file = $request -> file('image');
+            $file = $request->file('image');
             $fname = $file->getClientOriginalName();
-            $imagenewname = uniqid($user_id).$post['id'].$fname;
-            $file -> move(public_path('assets/img/posts/'),$imagenewname);
+            $imagenewname = uniqid($user_id) . $post['id'] . $fname;
+            $file->move(public_path('assets/img/posts/'), $imagenewname);
 
-            $filepath = "assets/img/posts/".$imagenewname;
+            $filepath = "assets/img/posts/" . $imagenewname;
             $post->image = $filepath;
-        }   
-        
-        $post -> save();
+        }
+
+        $post->save();
 
         //Start Day Action 
         // dd($request['newday_id']);
 
-        if(isset($request['newday_id'])){
+        if (isset($request['newday_id'])) {
 
             //remove all day
-            foreach($request['newday_id'] as $key=>$value){
-                $dayable = Dayable::where('dayable_id',$post['id'])->where('dayable_type',$request['dayable_type']);
+            foreach ($request['newday_id'] as $key => $value) {
+                $dayable = Dayable::where('dayable_id', $post['id'])->where('dayable_type', $request['dayable_type']);
                 $dayable->delete();
             }
 
             //add renewday 
-                foreach($request['newday_id'] as $key=>$value){
-                   $renewday = [
-                        'day_id' => $request['newday_id'][$key],
-                        // 'day_id' => $value,
-                        'dayable_id' => $post['id'],
-                        'dayable_type' => $request['dayable_type']
-                    ];
-                    Dayable::insert($renewday);
-                }
+            foreach ($request['newday_id'] as $key => $value) {
+                $renewday = [
+                    'day_id' => $request['newday_id'][$key],
+                    // 'day_id' => $value,
+                    'dayable_id' => $post['id'],
+                    'dayable_type' => $request['dayable_type']
+                ];
+                Dayable::insert($renewday);
+            }
         }
 
         //End Day Action
@@ -235,17 +235,17 @@ class PostsController extends Controller
     }
 
 
- 
+
     public function destroy(string $id)
     {
         $post = Post::findOrFail($id);
         //Remove Old Imge 
-        $path = $post -> image;
-            if(File::exists($path)){
-                File::delete($path);
-            }
+        $path = $post->image;
+        if (File::exists($path)) {
+            File::delete($path);
+        }
 
-        $post -> delete();
+        $post->delete();
         return redirect()->back();
     }
 }

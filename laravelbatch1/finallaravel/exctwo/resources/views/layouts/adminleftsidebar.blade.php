@@ -46,7 +46,9 @@
                                                 class="fas fa-long-arrow-alt-right me-4"></i>Att Form</a></li>
                                                 <li><a href="{{route('enrolls.index')}}" class="nav-link text-white sidebarlinks"><i
                                                     class="fas fa-long-arrow-alt-right me-4"></i>Enrolls</a></li>
-
+                                                <li><a href="{{route('leaves.index')}}" class="nav-link text-white sidebarlinks"><i
+                                                        class="fas fa-long-arrow-alt-right me-4"></i>Leave Form</a></li>
+    
                                 </ul>
 
                             </li>

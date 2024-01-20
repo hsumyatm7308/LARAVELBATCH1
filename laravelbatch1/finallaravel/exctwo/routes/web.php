@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardsController;
+use App\Http\Controllers\LeavesController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('edulinks', EdulinksController::class);
     Route::resource('enrolls', EnrollsController::class);
     Route::resource('genders', GendersController::class);
+    Route::resource('leaves', LeavesController::class);
     Route::resource('statuses', StatusesController::class);
     Route::resource('students', StudentsController::class);
     Route::resource('stages', StagesController::class);

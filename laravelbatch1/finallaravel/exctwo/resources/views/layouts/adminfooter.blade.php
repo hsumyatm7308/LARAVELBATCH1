@@ -96,7 +96,7 @@
 
 		@if($errors)
 		  @foreach($errors->all() as $error)
-		    toastr.error('{{$error}}', 'Inconceivable!',{timeOut:1000}) 
+		    toastr.error('{{$error}}', 'Inconceivable!',{timeOut:3000}) 
 
 		  @endforeach
 
