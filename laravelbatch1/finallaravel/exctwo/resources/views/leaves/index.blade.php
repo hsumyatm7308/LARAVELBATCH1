@@ -54,12 +54,13 @@
                 <td>
                     <a href="{{route('leaves.edit',$leave -> id)}}" class="text-info"><i class="fas fa-pen"></i></a>
                     
-                    <a href="#" class="text-danger ms-2 delete-btns" data-idx="{{$leave -> id}}"><i class="fas fa-trash-alt"></i></a>                   
+                     
+                    <a href="#" class="text-danger ms-2 delete-btns" data-id="{{$leave->id}}"><i class="fas fa-trash-alt"></i></a>                   
                 </td>
-                <form id="formdelete-{{$leave -> id}}" action="{{route('leaves.destroy',$leave -> id)}}" method="leave">
+                <form id="formdelete-{{$leave->id}}" action="{{route('leaves.destroy',$leave -> id)}}" method="POST">
                     @csrf 
                     @method('DELETE')
-                   
+                
                 </form>
             
             </tr> 
@@ -92,9 +93,10 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        $('.delete-btns').click(function(){
+          //start delete item
+          $('.delete-btns').click(function(){
             // console.log("hi");
-            var getidx = $(this).data('idx');
+            var getidx = $(this).data('id');
 
             if(confirm(`Are you sure !!! you want to delete ${getidx}?`)){
                 $('#formdelete-'+getidx).submit();
@@ -104,6 +106,7 @@
             }
 
         });
+        //end delete item
     });
 
 

@@ -1,5 +1,5 @@
 @extends('layouts.adminindex')
-@section('caption',"Post Show")
+@section('caption',"leave Show")
 @section('content')
 
 <!--Start Page Content Area-->
@@ -8,11 +8,8 @@
 
     <div class="col-md-12">
 
-        <a href="{{route('posts.index')}}" class="btn btn-secondary btn-sm rounded-0 mb-3">Close</a>
+        <a href="{{route('leaves.index')}}" class="btn btn-secondary btn-sm rounded-0 mb-3">Close</a>
 
-        @if(!$post->checkenroll($userdata->id))
-        <a href="#createmodal" class="btn btn-primary btn-sm rounded-0 mb-3" data-bs-toggle="modal">Enroll</a>
-        @endif
 
         <hr />
 
@@ -21,43 +18,35 @@
                 <div class="card rounded-0">
                     <div class="card-header">
 
-                        <h5 class="card-title">{{$post->title}} </h5>
+                        <h5 class="card-title">{{$leave->title}} </h5>
                     </div>
                     <ul class="list-group text-center">
-                        <li class="list-group-item fw-bold"><img src="{{asset($post -> image)}}" class="rounded-circle"
+                        <li class="list-group-item fw-bold"><img src="{{asset($leave -> image)}}" class="rounded-circle"
                                 width="200" height="200" height="20" /></li>
                     </ul>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <i class="fas fa-user fa-sm"></i>
-                                <span>{{$post["tag"]["name"]}}</span>
+                                <span>{{$leave["tags"]}}</span>
                                 <br />
                                 <i class="fas fa-user fa-sm"></i>
-                                <span>{{$post["type"]["name"]}}</span>
+                                <span>{{$leave["posts"]}}</span>
                                 <br />
                                 <i class="fas fa-user fa-sm"></i>
-                                <span>{{$post["user"]["name"]}}</span>
+                                <span>{{$leave["user"]["name"]}}</span>
                             </div>
                             <div class="col-md-6">
-                                <i class="fas fa-file fa-sm"></i>
-                                <span>{{$post['attstatus']['name']}}</span>
-                                <br />
+                              
                                 <i class="fas fa-calendar-alt fa-sm"></i>
-                                <span>{{date('d M y',strtotime($post->created_at))}} | {{date('h:i:s
-                                    A',strtotime($post->created_at))}}</span>
+                                <span>{{date('d M y',strtotime($leave->created_at))}} | {{date('h:i:s
+                                    A',strtotime($leave->created_at))}}</span>
                                 <br />
 
                                 <i class="fas fa-edit fa-sm"></i>
-                                <span>{{date('d M y h:i:s A',strtotime($post->updated_at))}}</span>
+                                <span>{{date('d M y h:i:s A',strtotime($leave->updated_at))}}</span>
                             </div>
-                            <div class="col-md-6">
-                                <i class="fas fa-calendar fa-sm">
-                                    @foreach($dayables as $dayable)
-                                    {{$dayable['name']}} ,
-                                    @endforeach
-                                </i>
-                            </div>
+                         
                         </div>
                     </div>
                 </div>
@@ -78,61 +67,14 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{!! $post->content !!}</td>
+                                <td>{!! $leave->content !!}</td>
                             </tr>
                         </tbody>
                     </table>
                     {{-- end remark --}}
                 </div>
 
-                <!--start message box-->
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <ul class="list-group chat-box">
-                                @foreach($comments as $comment)
-                                <li class="list-group-item mt-2">
-                                    <div>
-                                        <p>{{$comment -> description}}</p>
-                                    </div>
-                                    <div>
-                                        <span class="small fw-bold float-end">{{$comment -> user['name']}} |
-                                            {{$comment -> created_at -> diffForHumans()}}<span>
-                                    </div>
-
-
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                        <div class="card-body border-top">
-                            <form action="{{route('comments.store')}}" method="POST">
-                                @csrf
-
-                                <div class="col-md-12 d-flex justify-content-between">
-
-                                    <textarea name="description" id="description"
-                                        class="form-control border-0 rounded-0 " placeholder="Comment Here..." rows="1"
-                                        style="resize:none;"></textarea>
-
-                                    <button type="submit" class="btn btn-info btn-sm text-white ms-3"><i
-                                            class="fas fa-paper-plane"></i></button>
-
-                                </div>
-
-                                <!--start hidden field-->
-                                <input type="hidden" name="commentable_id" id="commentable_id" value="{{$post->id}}" />
-
-                                <input type="hidden" name="commentable_type" id="commentable_type "
-                                    value="App\Models\Post" />
-                                <!--end hidden field-->
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!--end message box-->
+               
 
             </div>
         </div>
@@ -145,50 +87,7 @@
 
 <!--start modal area-->
 <!--start create modal-->
-<div id="createmodal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-0">
 
-            <div class="modal-header">
-                <h6 class="modal-title">Enroll Form</h6>
-                <button type="type" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <form id="" action="{{route('enrolls.store')}}" method="POST" enctype="multipart/form-data">
-
-                    {{csrf_field()}}
-
-                    <div class="row align-items-end">
-                        <div class="col-md-12 form-group mb-3">
-                            <label for="image" class="gallery">Choose Image</label>
-
-                            <input type="file" name="image" id="image" class="form-control form-control-lg rounded-0"
-                                placeholder="Enter your image" value="{{old('image')}}" hidden />
-                        </div>
-
-                        <div class="col-md-10 form-group">
-                            <label for="remark"> Remark <span class="text-danger">*</span></label>
-
-                            <textarea name="remark" id="remark" class="form-control form-control-sm rounded-0"
-                                placeholder="Enter your Remark" rows="3" style="resize:none;">{{old('name')}}</textarea>
-                        </div>
-
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-sm rounded-0">Submit</button>
-                        </div>
-
-                        <!--start hidden field-->
-                        <input type="hidden" name="post_id" value="{{$post->id}}" />
-                        <!--end hidden field-->
-                    </div>
-
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
 <!--end create modal-->
 <!--end modal area-->
 

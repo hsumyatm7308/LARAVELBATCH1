@@ -78,7 +78,7 @@ class PostsController extends Controller
             $file = $request['image'];
             $fname = $file->getClientOriginalName();
             $imagenewname = uniqid($user_id) . $post['id'] . $fname;
-            $file->move(public_path('assets/img/posts/'), imagenewname);
+            $file->move(public_path('assets/img/posts/'), $imagenewname);
 
             $filepath = "assets/img/posts/" . $imagenewname;
             $post->image = $filepath;
