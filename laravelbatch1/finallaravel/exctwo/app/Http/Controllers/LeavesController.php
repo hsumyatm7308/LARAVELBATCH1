@@ -26,8 +26,11 @@ class LeavesController extends Controller
 
     public function index()
     {
-        $leaves = Leave::all();
-        return view('leaves.index', compact('leaves'));
+        // $leaves = Leave::paginate(3);
+        $data['leaves'] = Leave::filteronly()->searchonly()->paginate(5);
+        $data['filterposts'] = Post::whereIn('attshow', [3])->orderBy('title', 'asc')->pluck('title', 'id')->toArray();
+
+        return view('leaves.index', $data);
     }
 
 

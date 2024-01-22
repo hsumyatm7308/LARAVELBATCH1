@@ -58,4 +58,39 @@ class Leave extends Model
 
         }
     }
+
+
+
+    public function scopezaclassdate($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
+    }
+
+
+    public function scopesearchonly($query)
+    {
+
+        if ($getsearch = request('search')) {
+            $query->orWhereHas('user', function ($query) use ($getsearch) {
+                $query->where('name', 'LIKE', '%' . $getsearch . '%');
+
+            })
+                ->orWhereHas('post', function ($query) use ($getsearch) {
+                    $query->where('title', 'LIKE', '%' . $getsearch . '%');
+                });
+
+        }
+
+        return $query;
+    }
+
+    public function scopefilteronly($query)
+    {
+        if ($getfilter = request('filter')) {
+            $query->where('post_id', $getfilter);
+        }
+
+        return $query;
+    }
+
 }

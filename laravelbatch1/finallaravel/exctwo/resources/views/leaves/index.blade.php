@@ -6,6 +6,45 @@
 
     <div class="container-fluid">
 
+
+        <div class="col-md-12">
+            <form action="" method="">
+                <div class="row justify-content-end">
+                    <div class="col-md-2 col-sm-6 mb-2">
+
+                        <div class="form-group">
+                            <select name="filter" id="filter" class="form-control form-control-sm rounded-0">
+                                <option value="" selected>Choose Status...</option>
+                                @foreach($filterposts as $id => $name)
+                                <option value="{{$id}}">{{$name}}</option>                              
+    
+                  
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                      
+    
+    
+                    </div>
+                <div class="col-md-2 col-sm-6 mb-2">
+
+                    <div class="input-group">
+                        <input type="text" name="search" id="search" class="form-control form-control-sm rounded-0" placeholder="Search" value="{{request('search')}}">
+                        <button type="button" name="btn-clear" id="btn-clear" class="btn btn-secondary btn-sm"><i class="fas fa-syncronize">clear</i></button>
+                        <button type="search" name="btn-search" id="btn-search" class="btn btn-secondary btn-sm"><i class="fas fa-search"></i></button>
+
+                    </div>
+                </div>
+
+             
+    
+                </div>
+            </form>
+    
+        </div>
+
         <div class="col-md-12">  
         
         <a href="{{route('leaves.create')}}" class="btn btn-primary btn-sm rounded-0 mb-3">Create</a>
@@ -69,6 +108,10 @@
         </tbody>
         </table>
 
+
+        {{$leaves->links()}}
+
+
         </div>
 
     </div>
@@ -110,9 +153,7 @@
     });
 
 
-    //datatable.com
-    // let table = new DataTable('#mytable');
-    $('#mytable').DataTable();
+   
 </script>
 
 @endsection 
