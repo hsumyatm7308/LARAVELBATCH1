@@ -11,6 +11,7 @@ class LeaveRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        // dd($this->method());
         return true;
     }
 
@@ -21,16 +22,31 @@ class LeaveRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'post_id' => 'required',
-            'startdate' => 'required',
-            'enddate' => 'required',
-            'tag' => 'required',
-            'title' => 'required|max:50',
-            'content' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10024',
 
-        ];
+        if ($this->method() === "POST") {
+            return [
+                'post_id' => 'required',
+                'startdate' => 'required',
+                'enddate' => 'required',
+                'tag' => 'required',
+                'title' => 'required|max:50',
+                'content' => 'required',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10024',
+
+            ];
+        } else {
+            return [
+                'post_id' => 'required',
+                'startdate' => 'required',
+                'enddate' => 'required',
+                'tag' => 'required',
+                'title' => 'required|max:50',
+                'content' => 'required',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10024',
+
+            ];
+        }
+
     }
 
     public function attributes()

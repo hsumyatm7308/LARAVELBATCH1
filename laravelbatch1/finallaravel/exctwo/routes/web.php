@@ -67,14 +67,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('leaves', LeavesController::class);
     Route::resource('statuses', StatusesController::class);
     Route::resource('students', StudentsController::class);
+
     Route::resource('stages', StagesController::class);
+    Route::get('/stagestatus', [StagesController::class, 'stagestatus']);
+
     Route::resource('posts', PostsController::class);
     Route::resource('roles', RolesController::class);
     Route::resource('roles', RelativesController::class);
-
-    Route::resource('types', TypesController::class);
     Route::resource('tags', TagsController::class);
 
+    Route::resource('types', TypesController::class);
+    Route::get('/typestatus', [TypesController::class, 'typestatus']);
 
 });
 

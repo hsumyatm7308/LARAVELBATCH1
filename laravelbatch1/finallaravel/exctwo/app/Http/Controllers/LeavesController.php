@@ -29,7 +29,7 @@ class LeavesController extends Controller
         // $leaves = Leave::paginate(3);
         $data['leaves'] = Leave::filteronly()->searchonly()->paginate(5);
         $data['filterposts'] = Post::whereIn('attshow', [3])->orderBy('title', 'asc')->pluck('title', 'id')->toArray();
-
+        $data['posts'] = \DB::table('posts')->where('attshow', 3)->orderBy('title', 'asc')->get()->pluck('title', 'id');
         return view('leaves.index', $data);
     }
 
@@ -98,17 +98,17 @@ class LeavesController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(LeaveRequest $request, string $id)
     {
-        $this->validate($request, [
-            'title' => 'required|max:50' . $id,
-            'post_id' => 'required',
-            'startdate' => 'required',
-            'enddate' => 'required',
-            'tag' => 'required',
-            'content' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10024',
-        ]);
+        // $this->validate($request, [
+        //     'title' => 'required|max:50' . $id,
+        //     'post_id' => 'required',
+        //     'startdate' => 'required',
+        //     'enddate' => 'required',
+        //     'tag' => 'required',
+        //     'content' => 'required',
+        //     'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10024',
+        // ]);
 
 
         $user = Auth::user();
@@ -124,7 +124,6 @@ class LeavesController extends Controller
 
         $leave->content = $request['content'];
 
-        $leave->user_id = $user_id;
 
         // Remove old Image 
         if ($request->hasFile('image')) {
@@ -135,7 +134,7 @@ class LeavesController extends Controller
         }
 
 
-        //Single Image Update 
+        // Single Image Update 
         if ($request->hasFile('image')) {
 
             $file = $request->file('image');
@@ -149,7 +148,7 @@ class LeavesController extends Controller
 
         $leave->save();
 
-
+        session()->flash('success', 'Update Successfully');
         return redirect(route('leaves.index'));
     }
 

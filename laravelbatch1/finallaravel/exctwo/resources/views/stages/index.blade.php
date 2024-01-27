@@ -35,7 +35,7 @@
                 <td>
                     <div>
                         <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input" {{ $stage->status_id === 3 ? 'checked' : ''}} />
+                            <input type="checkbox" class="form-check-input change-btn" {{ $stage->status_id === 3 ? 'checked' : ''}} data-id={{$stage->id}}/>
                         </div>
                     </div>
                 </td>
@@ -197,6 +197,33 @@ $(document).on('click','.editform',function(e){
 
         });
         //end delete item
+
+
+
+// start change btn 
+
+// AJAX request
+$('.change-btn').change(function(){
+    var getid = $(this).data('id');
+    var setstatus = $(this).prop('checked') ? 3 : 4;
+
+    $.ajax({
+        url: '/stagestatus', // Corrected URL
+        type: "GET",
+        dataType: "json",
+        data: {"id": getid, "status_id": setstatus},
+
+        success: function(response){
+            console.log(response.success);
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText); // Log any error response
+        }
+    });
+});
+
+// end change btn 
+
 });
     
 

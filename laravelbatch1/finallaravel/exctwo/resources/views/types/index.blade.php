@@ -61,7 +61,11 @@
                
 
                 <td>{{$type['name']}}</td>
-                <td>{{$type->status->name}}</td>
+                <td>
+                    <div class="form-checkbox form-switch">
+                        <input type="checkbox" class="form-check-input change-btn" {{$type->status_id === 3 ? 'checked' : ''}} data-id="{{$type->id}}">
+                    </div>
+                </td>
                 <td>{{$type->user['name']}}</td>
                 <td>{{$type->created_at->format('d-M-Y')}}</td>
                 <td>{{$type->updated_at->format('d-M-Y')}}</td>
@@ -175,6 +179,29 @@ $('.delete-btns').click(function(){
 
 });
 //end delete item
+
+
+// start change btn 
+
+$('.change-btn').change(function(){
+    var getid = $(this).data('id');
+    // console.log(getid);
+    var setstatus = $(this).prop('checked') === true ? 3:4;
+    console.log(setstatus);
+
+    $.ajax({
+        url:'typestatus' ,
+        type:"GET",
+        dataType:"json",
+        data:{"id":getid, "status_id":setstatus},
+
+        success:function(response){
+            console.log(response.success);
+        }
+       });
+})
+
+// end change btn 
 
 });
     

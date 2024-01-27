@@ -12,20 +12,20 @@ use App\Models\Status;
 
 class TypesController extends Controller
 {
-  
+
     public function index()
     {
         $types = Type::all();
-        $statuses = Status::whereIn('id',[3,4])->get();
-        return view('types.index',compact('types','statuses'));
+        $statuses = Status::whereIn('id', [3, 4])->get();
+        return view('types.index', compact('types', 'statuses'));
     }
 
-   
+
     public function store(Request $request)
     {
-        $this -> validate($request,[
+        $this->validate($request, [
             'name' => 'required|max:50|unique:types',
-            
+
             'status_id' => 'required|in:3,4'
         ]);
 
@@ -34,22 +34,22 @@ class TypesController extends Controller
 
         $type = new Type();
 
-        $type -> name = $request['name'];   
-        $type -> slug = Str::slug($request['name']);    
-        $type -> status_id = $request['status_id'];
-        $type -> user_id = $user_id;
+        $type->name = $request['name'];
+        $type->slug = Str::slug($request['name']);
+        $type->status_id = $request['status_id'];
+        $type->user_id = $user_id;
 
-        
-        $type -> save();
+
+        $type->save();
         return redirect(route('types.index'));
     }
 
-   
+
     public function update(Request $request, string $id)
     {
-        $this -> validate($request,[
-            'name' => ['required','max:50','unique:types,name,'.$id],
-            'status_id' => ['required','in:3,4']
+        $this->validate($request, [
+            'name' => ['required', 'max:50', 'unique:types,name,' . $id],
+            'status_id' => ['required', 'in:3,4']
         ]);
 
         $user = Auth::user();
@@ -57,21 +57,34 @@ class TypesController extends Controller
 
         $type = Type::findOrFail($id);
 
-        $type -> name = $request['name'];   
-        $type -> slug = Str::slug($request['name']);    
-        $type -> status_id = $request['status_id'];
-        $type -> user_id = $user_id;
-  
-        $type -> save();
+        $type->name = $request['name'];
+        $type->slug = Str::slug($request['name']);
+        $type->status_id = $request['status_id'];
+        $type->user_id = $user_id;
+
+        $type->save();
         return redirect(route('types.index'));
     }
 
 
- 
+
     public function destroy(string $id)
     {
         $type = Type::findOrFail($id);
-        $type -> delete();
+        $type->delete();
         return redirect()->back();
+    }
+
+
+
+    // added method 
+
+    public function typestatus(Request $request)
+    {
+        $type = Type::findOrFail($request['id']);
+        $type->status_id = $request['status_id'];
+        $type->save();
+
+        return response()->json(["success" => "Status Change Successfully"]);
     }
 }

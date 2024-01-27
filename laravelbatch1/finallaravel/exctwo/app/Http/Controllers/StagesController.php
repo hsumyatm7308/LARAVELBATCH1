@@ -11,18 +11,18 @@ use App\Models\Status;
 
 class StagesController extends Controller
 {
-  
+
     public function index()
     {
         $stages = Stage::all();
-        $statuses = Status::whereIn('id',[3,4])->get();
-        return view('stages.index',compact('stages','statuses'));
+        $statuses = Status::whereIn('id', [3, 4])->get();
+        return view('stages.index', compact('stages', 'statuses'));
     }
 
-   
+
     public function store(Request $request)
     {
-        $this -> validate($request,[
+        $this->validate($request, [
             'name' => 'required|max:50|unique:stages',
             'status_id' => 'required|in:3,4'
         ]);
@@ -32,21 +32,21 @@ class StagesController extends Controller
 
         $stage = new Stage();
 
-        $stage -> name = $request['name'];   
-        $stage -> slug = Str::slug($request['name']);    
-        $stage -> status_id = $request['status_id'];
-        $stage -> user_id = $user_id;
+        $stage->name = $request['name'];
+        $stage->slug = Str::slug($request['name']);
+        $stage->status_id = $request['status_id'];
+        $stage->user_id = $user_id;
 
-        
-        $stage -> save();
+
+        $stage->save();
         return redirect(route('stages.index'));
     }
-   
+
     public function update(Request $request, string $id)
     {
-        $this -> validate($request,[
-            'name' => ['required','max:50','unique:stages,name,'.$id],
-            'status_id' => ['required','in:3,4']
+        $this->validate($request, [
+            'name' => ['required', 'max:50', 'unique:stages,name,' . $id],
+            'status_id' => ['required', 'in:3,4']
         ]);
 
         $user = Auth::user();
@@ -54,21 +54,31 @@ class StagesController extends Controller
 
         $stage = Stage::findOrFail($id);
 
-        $stage -> name = $request['name'];   
-        $stage -> slug = Str::slug($request['name']);    
-        $stage -> status_id = $request['status_id'];
-        $stage -> user_id = $user_id;
-  
-        $stage -> save();
+        $stage->name = $request['name'];
+        $stage->slug = Str::slug($request['name']);
+        $stage->status_id = $request['status_id'];
+        $stage->user_id = $user_id;
+
+        $stage->save();
         return redirect(route('stages.index'));
     }
 
 
- 
+
     public function destroy(string $id)
     {
         $stage = Stage::findOrFail($id);
-        $stage -> delete();
+        $stage->delete();
         return redirect()->back();
+    }
+
+
+    public function stagestatus(Request $request)
+    {
+        $stage = Stage::findOrFail($request->id); // Using arrow syntax
+        $stage->status_id = $request->status_id;
+        $stage->save();
+
+        return response()->json(["success" => "Status Change Successfully"]);
     }
 }

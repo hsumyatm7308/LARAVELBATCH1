@@ -33,12 +33,18 @@ class Leave extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'tag', 'id');
+        return $this->belongsTo(User::class);
 
 
 
     }
 
+    public function tagperson()
+    {
+        //leave htal ka column name = tag
+        return $this->belongsTo(User::class, 'tag', 'id');
+
+    }
     public function post()
     {
         return $this->belongsTo(Post::class);
@@ -59,6 +65,10 @@ class Leave extends Model
         }
     }
 
+    public function studenturl()
+    {
+        return Student::where('user_id', $this->user_id)->get(['students.id'])->first();
+    }
 
 
     public function scopezaclassdate($query)

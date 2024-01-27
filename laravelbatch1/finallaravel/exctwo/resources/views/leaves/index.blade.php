@@ -14,17 +14,11 @@
 
                         <div class="form-group">
                             <select name="filter" id="filter" class="form-control form-control-sm rounded-0">
-                                <option value="" selected>Choose Status...</option>
-                                @foreach($filterposts as $id => $name)
-                                <option value="{{$id}}">{{$name}}</option>                              
-    
-                  
-                                @endforeach
+                                @foreach($filterposts as $id=>$name)
+                                    <option value="{{$id}}" {{$id == request('filter') ? "selected" : ""}}>{{$name}}</option>
+                                @endforeach 
                             </select>
                         </div>
-
-
-                      
     
     
                     </div>
@@ -74,14 +68,14 @@
             @foreach($leaves as $idx=>$leave)
             <tr>
                 <td>{{++$idx}}</td>
-                <td>{{$leave->student($leave->user_id)}}</td>
+                <td><a href="{{route('leaves.show',$leave->studenturl())}}">{{$leave->student($leave->user_id)}}</a></td>
 
-                <td>{{$leave->post['title']}}</td>
+                <td><a href="{{route('posts.show',$leave->post_id)}}">{{$leave->post['title']}}</a></td>
                
                 <td>{{$leave->startdate}}</td>
                 <td>{{$leave->enddate}}</td>
 
-                <td>{{ $leave->user->name }}</td>
+                <td>{{ $leave->tagperson['name'] }}</td>
 
                 <td>{{$leave->stage['name']}}</td>
                 <td>{{$leave->user['name']}}</td>
@@ -108,8 +102,7 @@
         </tbody>
         </table>
 
-
-        {{$leaves->links()}}
+        {{$leaves->appends(request()->only('filter'))->links('pagination::bootstrap-4')}}
 
 
         </div>
@@ -135,7 +128,87 @@
 
 <script type="text/javascript">
 
+
+
+$(document).ready(function(){
+
+//   Start Filter 
+document.getElementById('filter').addEventListener('click',function(){
+let getfilterid = this.value || this.options[this.selectedIndex].value;
+window.location.href = window.location.href.split('?')[0] + '?filter='+getfilterid
+})
+// End Filter 
+
+
+
+// Start Clear btn 
+document.getElementById('btn-clear').addEventListener('click', function () {
+const getfilter = document.getElementById('filter');
+const getsearch = document.getElementById('search');
+
+getfilter.selectedIndex = 0;
+getsearch.value = '';
+
+window.location.href = window.location.href.split('?')[0];
+})
+// End Clear btn 
+
+// Start Autoshow Btn Clear 
+const autoshowbtn = function () {
+let getbtnclear = document.getElementById('btn-clear');
+let geturlquery = window.location.search;
+let pattern = /[?&]search=/;
+// console.log(geturlquery);
+
+if (pattern.test(geturlquery)) {
+    getbtnclear.style.display = "block";
+} else {
+    getbtnclear.style.display = "none";
+}
+}
+
+autoshowbtn();
+// End Autoshow Btn clear
+
+
+//start edit form 
+$(document).on('click','.editform',function(e){
+// console.log($(this).attr('data-name'),$(this).attr('data-id'))
+
+$("#editclassdate").val($(this).data('classdate'));
+$("#editpost_id").val($(this).data('post'));
+$("#editurl").val($(this).data('url'));
+
+
+const getid = $(this).attr('data-id');
+        
+$("#formaction").attr("action",`/edulinks/${getid}`);
+
+e.preventDefault();
+});
+//end edit form
+
+});
+
+
+// Start Link btn 
+$(".link-btns").click(function(){
+var geturl = $(this).data('url');
+console.log(geturl);
+navigator.clipboard.writeText(geturl);
+})
+// End Link btn 
+
+
+
+
+
     $(document).ready(function(){
+
+
+
+        
+        
           //start delete item
           $('.delete-btns').click(function(){
             // console.log("hi");
@@ -150,6 +223,11 @@
 
         });
         //end delete item
+
+
+
+
+
     });
 
 
