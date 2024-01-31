@@ -78,6 +78,7 @@
                 <td>{{ $leave->tagperson['name'] }}</td>
 
                 <td>{{$leave->stage['name']}}</td>
+
                 <td>{{$leave->user['name']}}</td>
 
 
@@ -85,7 +86,9 @@
                 <td>{{$leave->updated_at->format('d-M-Y')}}</td>
                
                 <td>
-                    <a href="{{route('leaves.edit',$leave -> id)}}" class="text-info"><i class="fas fa-pen"></i></a>
+                    <a href="{{route('leaves.show',$leave -> id)}}" class="text-primary"><i class="fas fa-book-reader"></i></a>
+                    
+                    <a href="{{route('leaves.edit',$leave -> id)}}" class="text-info ms-2"><i class="fas fa-pen"></i></a>
                     
                      
                     <a href="#" class="text-danger ms-2 delete-btns" data-id="{{$leave->id}}"><i class="fas fa-trash-alt"></i></a>                   

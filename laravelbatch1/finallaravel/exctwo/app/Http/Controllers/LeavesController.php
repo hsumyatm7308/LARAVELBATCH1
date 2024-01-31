@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LeaveRequest;
+use App\Notifications\LeaveNotify;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 use App\Models\Post;
@@ -38,6 +40,8 @@ class LeavesController extends Controller
     {
         $data['posts'] = \DB::table('posts')->where('attshow', 3)->orderBy('title', 'asc')->get()->pluck('title', 'id');
         $data['tags'] = User::orderBy('name', 'asc')->get()->pluck('name', 'id');
+        $data['gettoday'] = Carbon::today()->format('Y-m-d'); //get today as default 
+        // dd($data['gettoday']);
         return view('leaves.create', $data);
     }
 
@@ -77,6 +81,13 @@ class LeavesController extends Controller
 
 
         session()->flash('success', 'New Leave Created');
+
+        // notify 
+        // $users = User::all();
+        $tagperson = $leave->tagperson()->get();
+        $studentid = $leave->student($user_id);
+        Notification::send($tagperson, new LeaveNotify($leave->id, $leave->title, $studentid));
+
         return redirect(route('leaves.index'));
     }
 
