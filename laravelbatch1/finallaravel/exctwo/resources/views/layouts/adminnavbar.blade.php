@@ -20,38 +20,51 @@
             <ul class="navbar-nav me-5 pe-5">
                 <!-- notify -->
                 <li class="nav-item dropdowns me-3">
-                    <a href="javascript:void(0);" class="nav-line dropbtn" onclick="dropbtn(event)">
+                    <a href="javascript:void(0);" class="nav-line  dropbtn" onclick="dropbtn(event)">
                         <i class="fas fa-bell"></i>
                         <span class="badge bg-danger">{{Auth::user()->unreadnotifications->count()}}</span>
                     </a>
 
-                    <div class="dropdown-contents mydropdowns">
-                        <a href="javascript:void(0);" class="small text-muted text-center">
+                    <div class="dropdown-contents mt-2 mydropdowns">
+
+                        @if($userdata->unreadnotifications->count() > 0)
+                          <a href="{{route('leaves.markasread')}}" class="small text-muted text-center">
                             Mark all as read </a>
+
+                            @foreach($userdata->unreadnotifications as $notification)
+                            <a href="{{route('leaves.show',$notification->data['id'])}}" class="d-flex">
+                                <div class="me-3">
+                                    <i class="fas fa-bell fa-xs text-primary"></i>
+                                </div>
+                                <div class="small">
+                                    <ul class="list-unstyled">
+                                        <li>{{$notification->data['studentid']}}</li>
+                                        <li>{{Str::limit($notification->data['title'],20)}}</li>
+                                        <li>{{$notification->created_at->format('d M Y h:m:s A')}}</li>
+                                    </ul>
+                                    <i></i>
+                                </div>
+                            </a>
+                            @endforeach
+    
+                            <a href="javascript:void(0);" class="small text-muted text-center shadow">Show
+                                All Notification</a>
+                        @else
+                            <a href="javascript:void(0);" class="small text-muted text-center shadow">No
+                                New Notification</a>
+                        @endif
+
+                     
                
                    
-                        @foreach($userdata->unreadnotifications as $notification)
-                        <a href="{{route('leaves.show',$notification->data['id'])}}" class="d-flex">
-                            <div class="me-3">
-                                <i class="fas fa-bell fa-xs text-primary"></i>
-                            </div>
-                            <div class="small">
-                                <ul class="list-unstyled">
-                                    <li>{{$notification->data['studentid']}}</li>
-                                    <li>{{Str::limit($notification->data['title'],20)}}</li>
-                                    <li>{{$notification->created_at->format('d M Y h:m:s A')}}</li>
-                                </ul>
-                                <i></i>
-                            </div>
-                        </a>
-                        @endforeach
-
-                        <a href="javascript:void(0);" class="small text-muted text-center">Show
-                            All Notification</a>
+                   
 
                     </div>
 
                 </li>
+                {{-- mailgun.com  --}}
+                {{-- mailtrap.com  * free  --}}
+                {{-- cloudway.com  --}}
                 <!-- notify -->
 
 

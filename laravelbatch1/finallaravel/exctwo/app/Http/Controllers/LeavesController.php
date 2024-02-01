@@ -97,6 +97,9 @@ class LeavesController extends Controller
         $data['leave'] = Leave::findOrFail($id);
         $data['posts'] = Post::all();
         $data['tags'] = User::all();
+        //Qyery Builder only can read/write access to notifications table 
+        $getnoti = \DB::table('notifications')->where('data->id', $id)->pluck('id');
+        \DB::table('notifications')->where('id', '=', $getnoti)->update(['read_at' => now()]);
         return view('leaves.show', $data);
     }
 
@@ -175,6 +178,25 @@ class LeavesController extends Controller
         }
 
         $leave->delete();
+        return redirect()->back();
+    }
+
+    public function markasread()
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $user = User::findOrFail($user_id);
+        $user = User::findOrFail(auth()->user()->id);
+
+        foreach ($user->unreadNotifications as $notification) {
+            // $notification->markAsRead();
+            $notification->delete(); //all delete (unreadmessage)
+
+        }
+        // $user->unreadNotifications->markAsRead();
+        // $user->notifications()->delete();
+
         return redirect()->back();
     }
 }

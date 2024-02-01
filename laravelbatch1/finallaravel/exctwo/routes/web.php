@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('enrolls', EnrollsController::class);
     Route::resource('genders', GendersController::class);
     Route::resource('leaves', LeavesController::class);
+    Route::get('notify/markasread', [LeavesController::class, 'markasread'])->name('leaves.markasread');
+
     Route::resource('statuses', StatusesController::class);
     Route::resource('students', StudentsController::class);
 
