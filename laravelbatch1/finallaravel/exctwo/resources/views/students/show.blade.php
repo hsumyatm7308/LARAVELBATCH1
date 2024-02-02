@@ -190,8 +190,51 @@
                 </div>
             </div>
 
+       
             <div class="col-md-8 col-lg-9">
+                <div class="card border-0 rounded-0 shadow mb-4">
+                    <div class="card-body d-flex flex-wrap gap-3">
 
+                        <div class="Accordion">
+                            <h1 class="acctitle shown">Email</h1>
+                            <div class="acccontent">
+                                <div class="col-md-12">
+                                    <form action="" method="" class="mt-3">
+                                        @csrf 
+                                        <div class="row">
+                                            <div class="col-md-6 form-group mb-3">
+                                                <input type="email" name="cmpemail" id="cmpemail" class="form-control form-control-sm border-0 rounded-0" placeholder="To:" value="{{$student->user['email']}}" readonly/>
+                                            </div>
+                                            <div class="col-md-6 form-group mb-3">
+                                                <input type="text" name="cmpsubject" id="cmpsubject" class="form-control form-control-sm border-0 rounded-0" placeholder="Subject:"/>
+                                            </div>
+        
+                                            <div class="col-md-12 form-group mb-3">
+                                                <textarea type="text" name="cmpcontent" id="cmpcontent" class="form-control form-control-sm border-0 rounded-0" placeholder="Your message here... "> </textarea>
+                                            </div>
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-secondary btn-sm rounded-0" rows="3" style="resize: none" >Send</button>
+                                            </div>
+                                            
+                                        </div>
+        
+                                    </form>
+        
+                                </div>
+        
+                            </div>
+        
+                        
+                        </div>
+                    
+
+                    </div>
+                   
+               </div>
+
+              
+
+           
                <h6>Enrolls</h6>
                <div class="card border-0 rounded-0 shadow mb-4">
                     <div class="card-body d-flex flex-wrap gap-3">
@@ -349,7 +392,7 @@
     background-color: #f3f3f3;
 }
 
-.nav .tablinks.active  {
+.nav .tablinks.shown  {
     color: blue;
 }
 
@@ -375,6 +418,58 @@
     color: red;
 }
 /* End Tag box  */
+
+/* start accodian  */
+body {
+    font-family: sans-serif;
+}
+
+.Accordion {
+    width: 100%;
+}
+
+.acctitle {
+
+    font-size: 14px;
+    padding: 15px;
+    margin: 0;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
+
+
+/* .active.acctitle::after{
+    content: '\f068';
+
+} */
+
+.active::after {
+    content: '\f068';
+}
+
+.acctitle::after {
+    content: '\f067';
+    /* + */
+    font-family: "Font Awesome 5 Free";
+    /* position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%); */
+    float: right;
+}
+
+.acccontent {
+    height: 0;
+    background-color: #f4f4f4f4;
+    text-indent: 50px;
+    text-align: center;
+    font-size: 14px;
+    padding: 0 20px;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+}
+/* end accordion  */
 </style>
 @endsection
  
@@ -405,28 +500,62 @@ function gettab(evn, linkid) {
   });
 
   for (var x = 0; x < gettablinks.length; x++) {
-    gettablinks[x].className = gettablinks[x].className.replace(" active", "");
+    gettablinks[x].className = gettablinks[x].className.replace(" shown", "");
 
   }
 
   document.getElementById(linkid).style.display = "block";
 
-  // evn.target.className += " active";
+  // evn.target.className += " shown";
   // evn.target.className = evn.target.className.replace(
   //   "tablinks",
-  //   "tablinks active"
+  //   "tablinks shown"
   // );
-  // evn.target.classList.add("active");
+  // evn.target.classList.add("shown");
 
   // console.log(evn);
   // console.log(evn.target);
   // console.log(evn.currentTarget);
-  evn.currentTarget.className += " active";
+  evn.currentTarget.className += " shown";
 }
 
 document.getElementById("autoclick").click();
 
 // End Tag Box 
+
+// start accodian 
+ var getacctitles = document.getElementsByClassName("acctitle");
+console.log(getacctitles); //HtML Collection
+var getacccontents = document.querySelectorAll('.acccontent');
+console.log(getacccontents) //Note List
+
+for (var i = 0; i < getacctitles.length; i++) {
+    // console.log(i)
+    getacctitles[i].addEventListener("click", function(e) {
+        // console.log(e.target)
+
+        this.classList.toggle("shown");
+        var getcontent = this.nextElementSibling;
+        // console.log(getcontent);
+
+        if (getcontent.style.height) {
+            getcontent.style.height = null;
+        } else {
+            getcontent.style.height = getcontent.scrollHeight + "px";
+            console.log(getcontent.scrollHeight)
+        }
+
+    })
+
+    if (getacctitles[i].classList.contains('shown')) {
+        getacccontents[i].style.height = getacccontents.scrollHeight + "px";
+    }
+}
+
+
+
+
+// end accodion 
   </script>
 @endsection
 

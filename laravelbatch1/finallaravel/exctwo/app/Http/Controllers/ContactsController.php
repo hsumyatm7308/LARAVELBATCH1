@@ -6,9 +6,14 @@ use App\Models\Contact;
 use App\Models\Stage;
 use App\Models\Status;
 use App\Models\Relatives;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ContactEmailNotify;
+
 
 class ContactsController extends Controller
 {
@@ -45,7 +50,17 @@ class ContactsController extends Controller
 
 
         $contact->save();
-        // return redirect(route('contacts.index'));
+        $contactdata = [
+            "firstname" => $contact->firstname,
+            "lastname" => $contact->lastname,
+            "birthday" => $contact->birthday,
+            "relative" => $contact->relative->name, // Access the name property directly
+            'url' => url('/')
+        ];
+
+        Notification::send($user, new ContactEmailNotify($contactdata));
+
+        Notification::send($user, new ContactEmailNotify($contactdata));
         session()->flash('success', 'Create Contact Cteated');
         return redirect(route('contacts.index'));
     }

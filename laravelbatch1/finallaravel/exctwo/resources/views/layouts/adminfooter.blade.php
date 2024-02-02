@@ -104,7 +104,7 @@
 
 	</script>
 	{{-- extra js --}}
-	@yield('script');
+	@yield('scripts');
 
 </body>
 

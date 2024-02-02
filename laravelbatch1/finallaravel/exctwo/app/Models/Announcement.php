@@ -33,6 +33,13 @@ class Announcement extends Model
     }
 
 
+    public function comments()
+    {
+        //name
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+
 
 }
 

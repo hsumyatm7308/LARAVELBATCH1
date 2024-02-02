@@ -25,8 +25,8 @@
 
                         <div class="d-flex flex-column align-items-center mb-3">
                             <div class="h5 mb-1">{{$announcement->title}}</div>
-                          
-                            <img src="{{asset($announcement->image)}}" alt="{{$announcement->title}}" width="200" />
+                            <div class="h5 mb-1">{{$announcement->post->title}}</div>
+                            <img src="{{asset($announcement->image)}}" alt="{{$announcement->image}}" width="200" />
                         </div>   
                         
                         <div class="w-100 d-flex flex-row justify-content-between mb-3">
@@ -45,7 +45,7 @@
                                 <div class="col ps-3">
                                     <div class="row">
                                         <div class="col">
-                                            <div>Authorize</div>
+                                            <div>By</div>
                                         </div>
                                         <div class="col-auto">
                                             <div>{{$announcement['user']['name']}}</div>
@@ -132,6 +132,7 @@
 
             <div class="col-md-8 col-lg-9">  
 
+              
                 <h6>Comments</h6>
                 <div class="card border-0 rounded-0 shadow mb-4">
                     <div class="card-body d-flex flex-wrap gap-3">
@@ -139,7 +140,7 @@
                             <div class="card rounded-0">
                                 <div class="card-body">
                                     <ul class="list-group chat-boxs">
-                                        {{-- @foreach($comments as $comment)
+                                        @foreach($comments as $comment)
                                             <li class="list-group-item mt-2">
                                                 <div>
                                                     <p>{{$comment->description}}</p>
@@ -150,11 +151,11 @@
                                                 
                                                 
                                             </li>
-                                        @endforeach --}}
+                                        @endforeach
                                     </ul>
                                 </div>
                                 <div class="card-body border-top">
-                                    <form action="{{route('comments.store')}}" method="announcement">
+                                    <form action="{{route('comments.store')}}" method="POST">
                                         @csrf
         
                                         <div class="col-md-12 d-flex justify-between">
@@ -165,7 +166,7 @@
         
                                         <!-- Start Hidden Fields -->
                                         <input type="hidden" name="commentable_id" id="commentable_id" value="{{$announcement->id}}" />
-                                        <input type="hidden" name="commentable_type" id="commentable_type" value="App\Models\announcement" />
+                                        <input type="hidden" name="commentable_type" id="commentable_type" value="App\Models\Announcement" />
                                         <!-- End Hidden Fields -->
                                     </form>
                                 </div>
@@ -174,12 +175,11 @@
                     </div>
                 </div>
 
-
                 <h6>Additional Info</h6>
                 <div class="card border-0 rounded-0 shadow mb-4">
                         <ul class="nav"> 
                             <li class="nav-item">
-                                <button type="button" id="autoclick" class="tablinks active" onclick="gettab(event,'er')">Follower</button>
+                                <button type="button" id="autoclick" class="tablinks active" onclick="gettab(event,'content')">Follower</button>
                             </li>
                             <li class="nav-item">
                                 <button type="button" class="tablinks" onclick="gettab(event,'following')">Following</button>
@@ -194,24 +194,11 @@
                 
                         <div class="tab-content">
                 
-                            <div id="follower" class="tab-panel">
+                            <div id="content" class="tab-panel">
                                 <h6>This is Home informations</h6>
                                 <p>{!! $announcement->content !!}</p>
                             </div>
                 
-                            <div id="following" class="tab-panel">
-                                <h6>This is Profile informations</h6>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            </div>
-                
-                            <div id="liked" class="tab-panel">
-                                <h6>This is Contact informations</h6>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            </div>
-                
-                            <div id="remark" class="tab-panel">
-                                <p></p>
-                            </div>
                 
                         </div>
 

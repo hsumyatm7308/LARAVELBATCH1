@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -75,10 +76,33 @@ class AnnouncementsController extends Controller
     public function show(string $id)
     {
 
+        $user = Auth::user();
+        $user_id = $user->id;
 
         $announcement = Announcement::findOrFail($id);
+        $comments = $announcement->comments()->orderBy('updated_at', 'desc')->get();
 
-        return view('announcements.show', ['announcement' => $announcement]);
+        // $type = 'App\Notifications\AnnouncementNotify';
+
+        // $getnoti = \DB::table('notifications')->where('notifiable_id', $user_id, $id)->where('type', $type)->where('data->id', $id)->pluck('id');
+        // \DB::table('notifications')->where('id', $getnoti)->update(['read_at' => now()]);
+
+        $type = 'App\Notifications\AnnouncementNotify';
+
+        $getnoti = \DB::table('notifications')
+            ->where('notifiable_id', $user_id)
+            ->where('id', $id) // Assuming $id is the notification id
+            ->where('type', $type)
+            ->where('data->id', $id)
+            ->pluck('id')
+            ->first(); // Retrieve the first id
+
+        \DB::table('notifications')
+            ->where('id', $getnoti)
+            ->update(['read_at' => now()]);
+
+
+        return view('announcements.show', ['announcement' => $announcement, 'comments' => $comments, 'getnoti']);
     }
 
     public function edit(string $id)
