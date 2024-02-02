@@ -32,15 +32,24 @@
                             Mark all as read </a>
 
                             @foreach($userdata->unreadnotifications as $notification)
-                            <a href="{{route('leaves.show',$notification->data['id'])}}" class="d-flex">
+                            <a href="{{route($notification->type === "App\Notifications\AnnouncementNotify" ? 'announcements.show' : 'leaves.show',$notification->data['id'])}}" class="d-flex">
                                 <div class="me-3">
+                                   @if($notification->type === "App\Notifications\AnnouncementNotify")
+                                   <img src="{{$notification->data['img']}}" width="30" alt="{{$notification->data['id']}}">
+                                    @else
                                     <i class="fas fa-bell fa-xs text-primary"></i>
+                                    @endif 
                                 </div>
                                 <div class="small">
                                     <ul class="list-unstyled">
+                                        @if($notification->type == "App\Notifications\LeaveNotify")
                                         <li>{{$notification->data['studentid']}}</li>
                                         <li>{{Str::limit($notification->data['title'],20)}}</li>
+
+                                        @else
+                                        <li>{{Str::limit($notification->data['title'],20)}}</li>
                                         <li>{{$notification->created_at->format('d M Y h:m:s A')}}</li>
+                                        @endif 
                                     </ul>
                                     <i></i>
                                 </div>
