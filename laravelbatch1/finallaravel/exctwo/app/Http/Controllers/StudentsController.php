@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\StudentMailbox;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Mailbox;
+
 use App\Models\Student;
 use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
@@ -110,6 +114,42 @@ class StudentsController extends Controller
     {
         $student = Student::findOrFail($id);
         $student->delete();
+        return redirect()->back();
+    }
+
+    public function mailbox(Request $request)
+    {
+
+        // =>Method 1  (to Mailbox)
+        // $to = $request['cmpemail']; 
+        // $subject = $request['cmpsubject'];
+        // $content = $request['cmpcontent'];
+
+        // Mail::to($to)->send(new Mailbox($subject, $content));
+        // Mail::to($to)->send(new Mailbox($subject, $content));
+
+        //    can't see output  but we can check in cc in real world
+        // Mail::to($to)->cc("admin@dlt.com")->bcc("info@dlt.com")->send(new Mailbox($subject, $content));
+
+
+
+
+        // => Method 2  ( to SutdentMailBox)
+
+        // $data["to"] = $request['cmpemail'];
+        // $data["subject"] = $request['cmpsubject'];
+        // $data["content"] = $request['cmpcontent'];
+
+
+        $data = [
+            "to" => $request['cmpemail'],
+            "subject" => $request['cmpsubject'],
+            "content" => $request['cmpcontent']
+        ];
+
+        Mail::to($data['to'])->send(new StudentMailbox($data));
+
+
         return redirect()->back();
     }
 }

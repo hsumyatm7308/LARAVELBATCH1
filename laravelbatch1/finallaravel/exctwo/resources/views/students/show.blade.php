@@ -199,7 +199,7 @@
                             <h1 class="acctitle shown">Email</h1>
                             <div class="acccontent">
                                 <div class="col-md-12">
-                                    <form action="" method="" class="mt-3">
+                                    <form action="{{route('students.mailbox')}}" method="POST" class="mt-3">
                                         @csrf 
                                         <div class="row">
                                             <div class="col-md-6 form-group mb-3">

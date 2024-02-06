@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('statuses', StatusesController::class);
     Route::resource('students', StudentsController::class);
+    Route::post('compose/mailbox', [StudentsController::class, 'mailbox'])->name('students.mailbox');
 
     Route::resource('stages', StagesController::class);
     Route::get('/stagestatus', [StagesController::class, 'stagestatus']);
