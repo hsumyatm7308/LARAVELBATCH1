@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ContactEmailNotify extends Notification
+class ContactEmailNotify extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -68,3 +68,13 @@ class ContactEmailNotify extends Notification
 
 
 // t l g q b u v e u w b f r s x w   
+
+// php artisan queue:table 
+// php artisan migrate 
+// .env > QUEUE_CONNECTION = database      if you do queue, it must be database ( when it is sync , it doesn't work)
+// implements ShouldQuere   (use Illuminate\Contracts\Queue\ShouldQueue)
+// php artisan queue::work   or   php artisan queue:listen 
+
+
+// you can use queue 
+// trilo.com  = sms 

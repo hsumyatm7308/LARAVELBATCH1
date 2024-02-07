@@ -13,6 +13,7 @@ class LeaveNotify extends Notification
 
     public $tbid;
     public $title;
+    public $studentid;
 
     /**
      * Create a new notification instance.

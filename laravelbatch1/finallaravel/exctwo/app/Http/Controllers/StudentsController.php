@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\MailBoxJob;
+use App\Jobs\StudentMailBoxJob;
 use App\Mail\StudentMailbox;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Mailbox;
@@ -121,7 +123,7 @@ class StudentsController extends Controller
     {
 
         // =>Method 1  (to Mailbox)
-        // $to = $request['cmpemail']; 
+        // $to = $request['cmpemail'];
         // $subject = $request['cmpsubject'];
         // $content = $request['cmpcontent'];
 
@@ -131,6 +133,9 @@ class StudentsController extends Controller
         //    can't see output  but we can check in cc in real world
         // Mail::to($to)->cc("admin@dlt.com")->bcc("info@dlt.com")->send(new Mailbox($subject, $content));
 
+
+        // => Using Job Method 1 ( to MailBox )
+        // dispatch(new MailBoxJob($to, $subject, $content));
 
 
 
@@ -147,8 +152,9 @@ class StudentsController extends Controller
             "content" => $request['cmpcontent']
         ];
 
-        Mail::to($data['to'])->send(new StudentMailbox($data));
+        // Mail::to($data['to'])->send(new StudentMailbox($data));
 
+        dispatch(new StudentMailBoxJob($data));
 
         return redirect()->back();
     }

@@ -7,7 +7,7 @@
     <div class="container-fluid">
 
         <div class="col-md-12">
-        <form action="{{route('attendances.store')}}" method="POST">
+        <form action="{{route('enrolls.store')}}" method="POST">
             {{ csrf_field() }}
 
             <div class="row align-items-end">
@@ -20,15 +20,10 @@
                 <div class="col-md-3 form-group">
                     <label for="post_id">Class <span class="text-danger">*</span></label>
                     <select name="post_id" id="post_id" class="form-control form-control-sm rounded-0">
-                        @foreach($enrolls as $enroll)
-                            <option value="{{$enroll->id}}">{{$enroll->title}}</option>
+                        @foreach($posts as $post)
+                            <option value="{{$post->id}}">{{$post->title}}</option>
                         @endforeach
                     </select>
-                </div>
-
-                <div class="col-md-3 form-group">
-                    <label for="attcode">Attendance Code <span class="text-danger">*</span></label>
-                    <input type="text" name="attcode" id="attcode" class="form-control form-control-sm rounded-0" value="{{old('attcode')}}" />
                 </div>
 
                 <div class="col-md-3">
@@ -69,7 +64,7 @@
                                             <td>{{$enroll->created_at->format('d M Y')}}</td>
                                             <td>{{$enroll->updated_at->format('d M Y')}}</td>
                                             <td>
-                                                <a href="javascript:void(0);" class="text-info editform" data-bs-toggle="modal" data-bs-target="#editmodal" data-id="{{$enroll->id}}" data-attcode="{{$enroll->attcode}}" data-post="{{$enroll->post_id}}"><i class="fas fa-pen"></i></a>
+                                                <a href="javascript:void(0);" class="text-info editform" data-bs-toggle="modal" data-bs-target="#editmodal" data-id="{{$enroll->id}}" data-classdate="{{$enroll->created_at}}" data-post="{{$enroll->post_id}}"><i class="fas fa-pen"></i></a>
                                             </td>
 
                                         </tr>
@@ -107,19 +102,20 @@
 
                         <div class="row align-items-end">
 
-                            <div class="col-md-7 form-group">
+                            <div class="col-md-3 form-group">
+                                <label for="editclassdate">Class Date <span class="text-danger">*</span></label>
+                                <input type="date" name="classdate" id="editclassdate" class="form-control form-control-sm rounded-0" value="{{old('classdate')}}" />
+                            </div>
+            
+                            <div class="col-md-3 form-group">
                                 <label for="editpost_id">Class <span class="text-danger">*</span></label>
                                 <select name="post_id" id="editpost_id" class="form-control form-control-sm rounded-0">
-                                    @foreach($enrolls as $enroll)
-                                        <option value="{{$enroll->id}}">{{$enroll->title}}</option>
+                                    @foreach($posts as $post)
+                                        <option value="{{$post->id}}">{{$post->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
-
-                            <div class="col-md-3 form-group">
-                                <label for="editattcode">Class Date <span class="text-danger">*</span></label>
-                                <input type="text" name="attcode" id="editattcode" class="form-control form-control-sm rounded-0" />
-                            </div>
+            
 
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-primary btn-sm rounded-0">Update</button>
@@ -161,9 +157,8 @@
 
                 console.log('hay');
 
-                console.log($(this).attr('data-attcode'),$(this).data('post'));
             
-                $('#editattcode').val($(this).attr('data-attcode'));
+                $('#editclassdate').val($(this).attr('data-classdate'));
                 $('#editpost_id').val($(this).data('post'));
 
                 const getid = $(this).attr('data-id');

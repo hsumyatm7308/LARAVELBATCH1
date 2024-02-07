@@ -53,3 +53,10 @@ class Mailbox extends Mailable
         return [];
     }
 }
+
+
+// php artisan make:job MailBoxJob
+
+
+// if you queue with job, it doesn't need to call "implements ShouldQueue"
+// without job, need to call ShouldQueue 
