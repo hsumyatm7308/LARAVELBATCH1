@@ -43,8 +43,19 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function comment(){
-                                                //name
-        return $this -> morpMany(Comment::class,'commentable');
+    public function comment()
+    {
+        //name
+        return $this->morpMany(Comment::class, 'commentable');
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(Post::class, 'post_like')->withTimestamps();
+    }
+
+    public function checkpostlike($postid)
+    {
+        return $this->likes()->where('post_id', $postid)->exists();
     }
 }

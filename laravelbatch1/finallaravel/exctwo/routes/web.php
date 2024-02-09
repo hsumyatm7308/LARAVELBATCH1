@@ -17,6 +17,8 @@ use App\Http\Controllers\EdulinksController;
 use App\Http\Controllers\EnrollsController;
 use App\Http\Controllers\GendersController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\PostsLikeController;
+
 use App\Http\Controllers\RelativesController;
 
 use App\Http\Controllers\RolesController;
@@ -78,6 +80,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/stagestatus', [StagesController::class, 'stagestatus']);
 
     Route::resource('posts', PostsController::class);
+    Route::post('posts/{post}/like', [PostsLikeController::class, 'like'])->name('posts.like');
+    Route::post('posts/{post}/unlike', [PostsLikeController::class, 'unlike'])->name('posts.unlike');
+
     Route::resource('roles', RolesController::class);
     Route::resource('roles', RelativesController::class);
     Route::resource('tags', TagsController::class);
