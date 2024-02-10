@@ -35,7 +35,28 @@
 
                         <div class="w-100 d-flex flex-row justify-content-between mb-3">
                             <button type="button" class="w-100 btn btn-primary btn-sm rounded-0 me-2">Like</button>
-                            <button type="button" class="w-100 btn btn-primary btn-sm rounded-0 outline-primary">Follow</button>
+
+                            @if($userdata->id != $student->user_id)
+
+                                @if($userdata->checkuserfollowing($student->user_id))
+
+
+                                    <form action="{{route('users.unfollow',$student->user_id)}}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-100 btn btn-primary btn-sm rounded-0 outline-primary">Unfollow</button>
+                                    </form>
+
+                                @else 
+                                    <form action="{{route('users.follow',$student->user_id)}}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-100 btn btn-primary btn-sm rounded-0 outline-primary">Follow</button>
+                                    </form>
+                                @endif 
+
+                            @endif
+
+
+                        
                         </div>
     
                         <div class="mb-5">

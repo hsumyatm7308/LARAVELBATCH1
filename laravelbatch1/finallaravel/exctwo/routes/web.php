@@ -27,6 +27,8 @@ use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\StagesController;
 use App\Http\Controllers\TypesController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UsersFollowerController;
+
 
 
 /*
@@ -89,6 +91,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('types', TypesController::class);
     Route::get('/typestatus', [TypesController::class, 'typestatus']);
+
+
+    Route::post('users/{user}/follow', [UsersFollowerController::class, 'follow'])->name('users.follow');
+    Route::post('users/{user}/unfollow', [UsersFollowerController::class, 'unfollow'])->name('users.unfollow');
+
 
 });
 

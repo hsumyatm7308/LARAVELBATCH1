@@ -58,4 +58,23 @@ class User extends Authenticatable
     {
         return $this->likes()->where('post_id', $postid)->exists();
     }
+
+    public function followings()
+    {                                                  //        foreignkey ,relative key (primary key )
+        return $this->belongsToMany(User::class, 'follower_user', 'follower_id', 'user_id')->withTimestamps();
+
+        // Npte:: fowllower_id is me 
+        //    user_id  is a person that I followed 
+    }
+
+
+    public function checkuserfollowing($wasfollowedid)
+    {
+        return $this->followings()->where('user_id', $wasfollowedid)->exists();
+
+        // Note:: user_id mean = Other Person 
+        // Note:: wasfollowedif mean = person I followed 
+
+    }
+
 }
