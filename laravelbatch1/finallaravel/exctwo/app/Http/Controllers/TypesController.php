@@ -68,11 +68,13 @@ class TypesController extends Controller
 
 
 
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        $type = Type::findOrFail($id);
+        $type = Type::findOrFail($request['id']);
+
         $type->delete();
-        return redirect()->back();
+
+        return response()->json(['success' => 'Delete successfully']);
     }
 
 

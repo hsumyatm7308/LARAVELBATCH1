@@ -16,6 +16,7 @@ use App\Http\Controllers\DaysController;
 use App\Http\Controllers\EdulinksController;
 use App\Http\Controllers\EnrollsController;
 use App\Http\Controllers\GendersController;
+use App\Http\Controllers\PaymentmenthodsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\PostsLikeController;
 
@@ -81,16 +82,19 @@ Route::middleware('auth')->group(function () {
     Route::resource('stages', StagesController::class);
     Route::get('/stagestatus', [StagesController::class, 'stagestatus']);
 
+
+    Route::resource('paymentmethods', PaymentmenthodsController::class);
     Route::resource('posts', PostsController::class);
     Route::post('posts/{post}/like', [PostsLikeController::class, 'like'])->name('posts.like');
     Route::post('posts/{post}/unlike', [PostsLikeController::class, 'unlike'])->name('posts.unlike');
 
     Route::resource('roles', RolesController::class);
-    Route::resource('roles', RelativesController::class);
+    Route::resource('relatives', RelativesController::class);
     Route::resource('tags', TagsController::class);
 
-    Route::resource('types', TypesController::class);
+    Route::resource('types', TypesController::class)->except('destroy');
     Route::get('/typestatus', [TypesController::class, 'typestatus']);
+    Route::get('/typedelete', [TypesController::class, 'destroy'])->name('types.delete');
 
 
     Route::post('users/{user}/follow', [UsersFollowerController::class, 'follow'])->name('users.follow');

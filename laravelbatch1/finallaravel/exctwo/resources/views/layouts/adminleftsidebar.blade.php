@@ -123,6 +123,11 @@
                                         {{-- <li class="nav-item"><a href="{{route('stages.index')}}"
                                             class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>Stage</a>
                                         </li> --}}
+
+                                          
+                                        <li class="nav-item"><a href="{{route('days.index')}}"
+                                            class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>Day</a>
+                                        </li> 
                                         
                                         <li class="nav-item"><a href="{{route('statuses.index')}}"
                                             class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>status</a>
@@ -136,13 +141,21 @@
                                             class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>country</a>
                                         </li>
             
-                                        <li class="nav-item"><a href="{{route('genders.index')}}"
-                                            class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>gender</a>
-                                        </li>
+                                          
+                                        <li class="nav-item"><a href="{{route('paymentmethods.index')}}"
+                                            class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>Payment Method</a>
+                                        </li> 
+
             
                                         <li class="nav-item"><a href="{{route('categories.index')}}"
                                             class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>categories</a>
                                         </li>
+
+
+                                        <li class="nav-item"><a href="{{route('genders.index')}}"
+                                            class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>gender</a>
+                                        </li>
+
 
                                         <li class="nav-item"><a href="{{route('roles.index')}}"
                                             class="nav-link text-white p-3 mb-2 sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>role</a>
@@ -155,10 +168,7 @@
                                         <li class="nav-item"><a href="{{route('tags.index')}}"
                                             class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>Tag</a>
                                         </li> 
-                                        
-                                        <li class="nav-item"><a href="{{route('days.index')}}"
-                                            class="nav-link text-white sidebarlinks"><i class="fas fa-file-alt fa-lg me-3"></i>Day</a>
-                                        </li> 
+                                      
     
                                     </ul>
                             </li>

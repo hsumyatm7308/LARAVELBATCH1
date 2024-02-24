@@ -1,5 +1,5 @@
 @extends('layouts.adminindex')
-@section('caption',"Type List")
+@section('caption',"paymentmethod List")
 @section('content')
 
 <!--Start Page Content Area-->
@@ -7,14 +7,14 @@
     <div class="container-fluid">
 
         <div class="col-md-12">
-            <form action="{{route('types.store')}}" method="POST" enctype="multipart/form-data">          
+            <form action="{{route('paymentmethods.store')}}" method="POST" encpaymentmethod="multipart/form-data">          
                 {{csrf_field()}}    
 
                <div class="row align-items-end">
                    <div class="col-md-4 form-group">
                        <label for="name"> Name <span class="text-danger">*</span></label>
 
-                       <input type="text" name="name" id="name" class="form-control form-control-sm rounded-0" placeholder="Enter your name" value="{{old('name')}}" />
+                       <input paymentmethod="text" name="name" id="name" class="form-control form-control-sm rounded-0" placeholder="Enter your name" value="{{old('name')}}" />
                    </div>
 
                    <div class="col-md-4 form-group">
@@ -29,8 +29,8 @@
                 </div>
            
                    <div class="col-md-4">                
-                        <button type="reset" class="btn btn-secondary btn-sm rounded-0 ms-3">Cancel</button>
-                        <button type="submit" class="btn btn-primary btn-sm rounded-0 ms-3">Submit</button>                     
+                        <button paymentmethod="reset" class="btn btn-secondary btn-sm rounded-0 ms-3">Cancel</button>
+                        <button paymentmethod="submit" class="btn btn-primary btn-sm rounded-0 ms-3">Submit</button>                     
                    </div>
                </div>
            </form>
@@ -55,29 +55,29 @@
         </thead>
         <tbody>
             
-            @foreach($types as $idx=>$type)
-            <tr>
+            @foreach($paymentmethods as $idx=>$paymentmethod)
+            <tr id="delete_{{$paymentmethod['id']}}">
                 <td>{{++$idx}}</td>
                
 
-                <td>{{$type['name']}}</td>
+                <td>{{$paymentmethod['name']}}</td>
                 <td>
                     <div class="form-checkbox form-switch">
-                        <input type="checkbox" class="form-check-input change-btn" {{$type->status_id === 3 ? 'checked' : ''}} data-id="{{$type->id}}">
+                        <input type="checkbox" class="form-check-input change-btn" {{$paymentmethod->status_id === 3 ? 'checked' : ''}} data-id="{{$paymentmethod->id}}">
                     </div>
                 </td>
-                <td>{{$type->user['name']}}</td>
-                <td>{{$type->created_at->format('d-M-Y')}}</td>
-                <td>{{$type->updated_at->format('d-M-Y')}}</td>
+                <td>{{$paymentmethod->user['name']}}</td>
+                <td>{{$paymentmethod->created_at->format('d-M-Y')}}</td>
+                <td>{{$paymentmethod->updated_at->format('d-M-Y')}}</td>
                
                 <td>
-                    <a href="javascript:void(0);" class="text-info editform" data-bs-toggle="modal" data-bs-target="#editmodal" data-id="{{$type->id}}" data-name="{{$type->name}}" data-status="{{$type->status_id}}"><i class="fas fa-pen"></i></a>
+                    <a href="javascript:void(0);" class="text-info editform" data-bs-toggle="modal" data-bs-target="#editmodal" data-id="{{$paymentmethod->id}}" data-name="{{$paymentmethod->name}}" data-status="{{$paymentmethod->status_id}}"><i class="fas fa-pen"></i></a>
                     
                     {{-- <a href="javascript:void(0);" class="text-danger ms-2 delete-btns" data-idx="{{$idx}}"><i class="fas fa-trash-alt"></i></a>                    --}}
-                    <a href="javascript:void(0);" class="text-danger ms-2 delete-btns" data-id={{$type->id}} data-idx="{{$idx}}"><i class="fas fa-trash-alt"></i></a>                   
+                    <a href="javascript:void(0);" class="text-danger ms-2 delete-btns" data-id="{{$paymentmethod->id}}" data-idx="{{$idx}}"><i class="fas fa-trash-alt"></i></a>
 
                 </td>
-                {{-- <form id="formdelete-{{$type->id}}" action="{{route('types.destroy',$type -> id)}}" method="POST">
+                {{-- <form id="formdelete-{{$paymentmethod->id}}" action="{{route('paymentmethods.destroy',$paymentmethod -> id)}}" method="POST">
                     @csrf 
                     @method('DELETE')
                    
@@ -102,11 +102,11 @@
 
             <div class="modal-header">
                 <h6 class="modal-title">Edit Form</h6>
-                <button type="type" class="btn-close" data-bs-dismiss="modal"></button>
+                <button paymentmethod="paymentmethod" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
-                <form id="formaction" action="" method="POST" enctype="multipart/form-data">
+                <form id="formaction" action="" method="POST" encpaymentmethod="multipart/form-data">
            
                     {{csrf_field()}}
                     {{method_field('PUT')}}
@@ -115,9 +115,10 @@
                        <div class="col-md-7 form-group">
                            <label for="editname"> Name <span class="text-danger">*</span></label>
 
-                           <input type="text" name="name" id="editname" class="form-control form-control-sm rounded-0" placeholder="Enter your name" value="{{old('name')}}" />
+                           <input paymentmethod="text" name="name" id="editname" class="form-control form-control-sm rounded-0" placeholder="Enter your name" value="{{old('name')}}" />
                        </div>
 
+                      
                        <div class="col-md-3 form-group">
                         <label for="editstatus_id"> Status <span class="text-danger">*</span></label>
 
@@ -130,7 +131,7 @@
                        </div>
                
                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-sm rounded-0">Update</button>                             
+                            <button paymentmethod="submit" class="btn btn-primary btn-sm rounded-0">Update</button>                             
                        </div>                  
                    </div>
     
@@ -144,13 +145,50 @@
 @endsection
 
 {{-- Str = string --}}
-{{-- Str::limit($type -> remark,10) --}}
+{{-- Str::limit($paymentmethod -> remark,10) --}}
 
 @section('script')
 
-<script type="text/javascript">
+<script paymentmethod="text/javascript">
  
 $(document).ready(function(){
+
+
+    // by ajax using default laravel route 
+$(document).on('click', '.delete-btns', function(e) {
+    e.preventDefault();
+
+    console.log('hi');
+    var getidx = $(this).data('idx');
+    var getid = $(this).data('id');
+
+    if (confirm(`Are you sure you want to delete ${getidx}?`)) {
+        // UI remove
+        $(this).parent().parent().remove();
+
+        $.ajax({
+            url: `paymentmethods/${getid}`,
+            type: "DELETE", // Corrected method name
+            dataType: "json",
+            data:{_token:"{{csrf_token()}}"}, // 419 error
+            success: function(response) {
+                console.log(response.success);
+                if(response && response.status === "okay"){
+                     const getdata = response.data;
+                     $(`#delete_${getdata}`).remove();
+                }
+            }
+        });
+        return true;
+    } else {
+        return false;
+    }
+});
+
+//end delete item
+
+
+
 
 //start edit form 
 $(document).on('click','.editform',function(e){
@@ -161,92 +199,52 @@ $(document).on('click','.editform',function(e){
 
     const getid = $(this).attr('data-id');
             
-    $("#formaction").attr("action",`/types/${getid}`);
+    $("#formaction").attr("action",`/paymentmethods/${getid}`);
 
     e.preventDefault();
 });
 //end edit form
 
 //start delete item
-// $('.delete-btns').click(function(){
-//             // console.log("hi");
-//     var getidx = $(this).data('idx');
+$('.delete-btns').click(function(){
+            // console.log("hi");
+    var getidx = $(this).data('idx');
 
-//     if(confirm(`Are you sure !!! you want to delete ${getidx}?`)){
-//         $('#formdelete-'+getidx).submit();
-//         return true;
-//     }else{
-//         return false;
-//     };
+    if(confirm(`Are you sure !!! you want to delete ${getidx}?`)){
+        $('#formdelete-'+getidx).submit();
+        return true;
+    }else{
+        return false;
+    };
 
-// });
+});
 
  
 
-// by ajax 
-$('.delete-btns').click(function(){
-
-    console.log('hi');
-    var getidx = $(this).data('idx');
-    var getid = $(this).data('id');
-
-    // if(confirm(`Are you sure !!! you want to delete ${getidx}?`)){
-
-    //     // ui remove 
-    //     $(this).parent().parent().remove();
 
 
 
+        // start change btn 
 
-    //     $.ajax({
+        $('.change-btn').change(function(){
+            var getid = $(this).data('id');
+            // console.log(getid);
+            var setstatus = $(this).prop('checked') === true ? 3:4;
+            console.log(setstatus);
 
-    //     url:'typedelete' ,
-    //     type:"GET",
-    //     dataType:"json",
-    //     data:{"id":getid},
+            $.ajax({
+                url:'paymentmethodstatus' ,
+                paymentmethod:"GET",
+                datapaymentmethod:"json",
+                data:{"id":getid, "status_id":setstatus},
 
+                success:function(response){
+                    console.log(response.success);
+                }
+            });
+        })
 
-
-
-    //     success:function(response){
-    //         console.log(response.success);
-    //     }
-
-
-    //    });
-    //    return true;
-
-
-    // }else{
-    //     return false;
-    // }
-
-
-})
-//end delete item
-
-
-// start change btn 
-
-$('.change-btn').change(function(){
-    var getid = $(this).data('id');
-    // console.log(getid);
-    var setstatus = $(this).prop('checked') === true ? 3:4;
-    console.log(setstatus);
-
-    $.ajax({
-        url:'typestatus' ,
-        type:"GET",
-        dataType:"json",
-        data:{"id":getid, "status_id":setstatus},
-
-        success:function(response){
-            console.log(response.success);
-        }
-       });
-})
-
-// end change btn 
+        // end change btn 
 
 });
     
@@ -256,4 +254,4 @@ $('.change-btn').change(function(){
 @endsection 
 
 {{-- home work --}}
- {{-- tag == categories  == types --}}
+ {{-- tag == categories  == paymentmethods --}}
