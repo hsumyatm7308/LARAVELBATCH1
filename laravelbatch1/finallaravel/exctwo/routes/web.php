@@ -84,6 +84,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('paymentmethods', PaymentmenthodsController::class);
+    Route::get('/paymentmethodsstatus', [PaymentmenthodsController::class, 'stagestatus']);
+
     Route::resource('posts', PostsController::class);
     Route::post('posts/{post}/like', [PostsLikeController::class, 'like'])->name('posts.like');
     Route::post('posts/{post}/unlike', [PostsLikeController::class, 'unlike'])->name('posts.unlike');

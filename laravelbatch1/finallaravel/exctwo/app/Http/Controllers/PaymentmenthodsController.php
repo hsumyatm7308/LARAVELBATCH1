@@ -58,15 +58,30 @@ class PaymentmenthodsController extends Controller
         $user = Auth::user();
         $user_id = $user['id'];
 
-        $paymentmethod = Paymentmethod::findOrFail($id);
 
-        $paymentmethod->name = $request['name'];
-        $paymentmethod->slug = Str::slug($request['name']);
-        $paymentmethod->status_id = $request['status_id'];
-        $paymentmethod->user_id = $user_id;
+        try {
 
-        $paymentmethod->save();
-        return redirect(route('paymentmethods.index'));
+            $paymentmethod = Paymentmethod::findOrFail($id);
+
+            $paymentmethod->name = $request['name'];
+            $paymentmethod->slug = Str::slug($request['name']);
+            $paymentmethod->status_id = $request['status_id'];
+            $paymentmethod->user_id = $user_id;
+
+            $paymentmethod->save();
+
+            if ($paymentmethod) {
+                return response()->json(['status' => "okay", 'data' => $paymentmethod]);
+            }
+            return response()->json(['status' => 'failed', 'message' => "Failed to update Payment Method"]);
+
+        } catch (Exception $e) {
+            Log::error(($e)->getMessage());
+            return response()->json(['status' => 'failed', 'message' => $e->getMessage()]);
+        }
+
+
+        // return redirect(route('paymentmethods.index'));
     }
 
 

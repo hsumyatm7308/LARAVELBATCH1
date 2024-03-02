@@ -102,11 +102,11 @@
 
             <div class="modal-header">
                 <h6 class="modal-title">Edit Form</h6>
-                <button paymentmethod="paymentmethod" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="paymentmethod" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
-                <form id="formaction" action="" method="POST" encpaymentmethod="multipart/form-data">
+                <form id="formaction" action="" method="POST" enctype="multipart/form-data">
            
                     {{csrf_field()}}
                     {{method_field('PUT')}}
@@ -115,7 +115,7 @@
                        <div class="col-md-7 form-group">
                            <label for="editname"> Name <span class="text-danger">*</span></label>
 
-                           <input paymentmethod="text" name="name" id="editname" class="form-control form-control-sm rounded-0" placeholder="Enter your name" value="{{old('name')}}" />
+                           <input type="text" name="name" id="editname" class="form-control form-control-sm rounded-0" placeholder="Enter your name" value="{{old('name')}}" />
                        </div>
 
                       
@@ -131,7 +131,7 @@
                        </div>
                
                        <div class="col-md-2">
-                            <button paymentmethod="submit" class="btn btn-primary btn-sm rounded-0">Update</button>                             
+                            <button type="submit" class="btn btn-primary btn-sm rounded-0">Update</button>                             
                        </div>                  
                    </div>
     
@@ -149,7 +149,22 @@
 
 @section('script')
 
-<script paymentmethod="text/javascript">
+<script type="text/javascript">
+
+
+// Start Passing Header Token 
+
+$.ajaxSetup(
+   {
+    headers:{
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]')->attr('content')
+    }
+   }
+)
+
+
+// End Passing Header Token
+
  
 $(document).ready(function(){
 
@@ -197,12 +212,33 @@ $(document).on('click','.editform',function(e){
     $("#editname").val($(this).attr('data-name'));
     $("#editstatus_id").val($(this).data('status'));
 
-    const getid = $(this).attr('data-id');
+    // const getid = $(this).attr('data-id');
             
-    $("#formaction").attr("action",`/paymentmethods/${getid}`);
+    // $("#formaction").attr("action",`/paymentmethods/${getid}`);
 
     e.preventDefault();
 });
+
+
+$('#formaction').submit(function(e)){
+    e.preventDefault();
+    const getid = 1;
+
+    $.ajax({
+        url: `paymentmethods/${getid}`,
+        type:"PUT",
+        dataType:'json',
+        data:$('#formaction').serialize(), //name&satatus_id
+       success:function(response){
+        // console.log(this.data);
+        //   console.log(response.status);
+          $('#editmodal').modal('hide');
+       }
+    });
+
+    // console.log('hello');
+    
+}
 //end edit form
 
 //start delete item
